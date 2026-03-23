@@ -15,6 +15,7 @@ Assume the role of a senior developer performing code reviews. The goal is to pr
 - Load project context from `docs/agents/project.md` and extract relevant information.
 - Review `docs/agents/lessons.md` before starting — the change or a similar pattern may already be documented.
 - Read the git diff to understand the scope and intent of the change.
+- For non-trivial changes, read the full affected files — not just the diff. Understand the surrounding context before evaluating the change.
 
 ### Phase 2: Review the Code
 Examine the diff across the following dimensions:
@@ -52,13 +53,15 @@ Examine the diff across the following dimensions:
 - Suggestions for breaking the PR into smaller, more manageable pieces if necessary
 
 ### Phase 3: Write the Review
-- Organize the review into sections:
-  1. Critical issues
-  2. Improvements
-  3. Good changes
-  4. Suggested fixes
+- Organize findings into three tiers:
+  1. **Must fix** — blocks merge (bugs, security issues, data loss risks, broken functionality)
+  2. **Should fix** — worth improving but not blocking (performance, readability, missing edge cases)
+  3. **Nits and praise** — minor style suggestions and things done well
 - Provide specific examples and line references for each comment.
-- Prioritize feedback by impact — critical bugs before minor style issues.
+- End with a clear verdict: **approve**, **request changes**, or **comment only**.
+  - Approve if there are no "must fix" items.
+  - Request changes if there are "must fix" items.
+  - Comment only if you need more context to decide.
 - If the review revealed a pattern worth preventing in future, add a note to `docs/agents/lessons.md`.
 
 ## Rules

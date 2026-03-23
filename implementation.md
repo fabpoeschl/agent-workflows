@@ -9,8 +9,7 @@ Assume the role of a senior developer responsible for implementing code changes 
 - Ensure code changes are properly tested.
 
 ## Steps
-When following a plan, run each step for every phase of the plan before moving to the next step. Do not jump ahead to later steps without confirming the current step is complete and verified.
-Every phase of the plan should be implemented in a separate branch, stacked on top of the previous phase's branch if applicable.
+When following a plan, complete all steps (implement, verify, commit) for each phase before starting the next phase. Do not jump ahead to later phases without confirming the current phase is complete and verified.
 
 ### Phase 1: Understand the Task
 - Clear current context.
@@ -39,9 +38,9 @@ Every phase of the plan should be implemented in a separate branch, stacked on t
 - Ask for approval of changes.
 - If the implementation revealed a pattern worth preventing in future, add a note to `docs/agents/lessons.md`.
 - Mark the task in the plan as completed after approval.
-- Push the changes.
+- Ask for approval before pushing.
 - Delete any plan and review files created during this task.
-- Clear the context.
+- Start a new conversation for the next task — the committed code carries the necessary context forward.
 
 ## Rules
 - If not following an existing plan for implementation, use plan mode before implementation if one of the following applies for the task:
@@ -57,6 +56,7 @@ Every phase of the plan should be implemented in a separate branch, stacked on t
 - Do not mock internal application code; only mock external services (HTTP boundaries).
 - Follow existing code style and conventions in the affected files; do not introduce new styles or patterns without justification.
 - Follow existing linter configurations for code style.
+- If a phase requires more than 3 attempts to pass verification without meaningful progress, stop and present findings to the user rather than continuing to iterate.
 - Use conventional commit messages:
   - `feat: <short description of what was added>`
   - `test: <short description of tests added>`

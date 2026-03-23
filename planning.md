@@ -26,6 +26,7 @@ Assume the role of a senior architect responsible for planning code changes base
 - Provide alternatives or options for implementation if applicable, along with pros and cons of each approach.
 
 ### Phase 3: Write the Plan
+- Write the plan to `docs/agents/plans/<task-name>.md`.
 - Break the work into independent phases that can each be implemented and verified without breaking existing functionality.
 - For each phase, document:
   - Files to change with a brief description of what changes
@@ -67,7 +68,7 @@ Update the plan to address any issues found during self-review.
 
 ### Phase 5: Get Approval
 - Present the plan and ask for approval before starting implementation.
-- Clear the current context when the plan is approved.
+- Start a new conversation for implementation — the plan file carries the necessary context forward.
 
 ## Rules
 - Plans should be detailed enough to guide implementation, but concise enough to be easily followed.

@@ -1,11 +1,17 @@
-# JavaScript-Specific Agent Configuration
+# JavaScript/TypeScript Agent Configuration
 
 Include this alongside other agent docs when working on JavaScript/TypeScript projects.
 
 ## Running Tests
+Use the project's configured test runner. Common commands:
 ```
+# Vitest
 npx vitest run path/to/test.ts
 npx vitest run path/to/test.ts --testNamePattern="description of test"
+
+# Jest
+npx jest path/to/test.ts
+npx jest path/to/test.ts -t "description of test"
 ```
 
 ## Linting
@@ -22,7 +28,6 @@ npx tsc --noEmit
 Ensure no type errors are introduced by the change.
 
 ## Testing Rules
-- Prefer `vi.mock` only for external modules and HTTP boundaries.
 - Use `msw` (Mock Service Worker) or similar for API mocking when available.
 - Avoid snapshot tests for dynamic content; prefer explicit assertions.
 - Test user-facing behavior, not implementation details.

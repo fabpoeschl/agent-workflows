@@ -18,7 +18,6 @@ Follow the project's `.rubocop.yml` for Ruby style and `.eslintrc` for JavaScrip
 If specs in `spec/integration` were added or changed, run `bundle exec rswag` to update swagger docs.
 
 ## Testing Rules
-- Do not mock internal application code; only mock external services (HTTP boundaries).
 - Before defining a complex mock, check `test/support/` for existing stubs and helpers.
 - Prefer factories over fixtures for test data setup, considering dependency chains.
 - Add view tests for static content and simple interactions; use system tests for complex interactions.
@@ -26,18 +25,7 @@ If specs in `spec/integration` were added or changed, run `bundle exec rswag` to
 ## Plan Mode Triggers
 In addition to the general triggers, use plan mode when:
 - Database schema or migration changes are needed
-- Timescale hypertable modifications are needed
-- Ingest pipeline changes are needed
 - Caching layer changes are needed
-
-## Commit Messages
-Use conventional commits with optional ticket number:
-- `feat: NT-XXXXX <description>`
-- `fix: NT-XXXXX <description>`
-- `test: NT-XXXXX <description>`
-- `chore: NT-XXXXX <description>`
-
-The ticket number may be omitted if not provided.
 
 ## Code Review Extras
 In addition to the general review checklist, check for:
@@ -51,5 +39,8 @@ In addition to the general review checklist, check for:
 ## Debugging CI Failures
 - CI failures that don't reproduce locally are often seed/ordering dependent.
 - Always reproduce with the exact seed: `bundle exec rails test path/to/test.rb --seed <seed>`
-- Suspect test pollution: class-level Mocha stubs, `any_instance` stubs, Flipper flags, or shared mutable state.
+- Common sources of test pollution:
+  - Class-level Mocha stubs or `any_instance` stubs leaking between tests
+  - Flipper flags or feature toggles set in one test affecting another
+  - Shared mutable state (class variables, global config, in-memory caches)
 - Prefer HTTP stubs over class-level Mocha stubs for external service calls in integration paths.
