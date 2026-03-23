@@ -1,0 +1,38 @@
+#!/bin/sh
+set -e
+
+AGENTS_DIR="$HOME/.agents"
+
+mkdir -p docs/agents
+
+for file in "$AGENTS_DIR"/*.md; do
+  [ -f "$file" ] || continue
+  ln -sf "$file" "docs/agents/$(basename "$file")"
+done
+
+if [ ! -f docs/agents/project.md ]; then
+  cat > docs/agents/project.md <<'EOF'
+# Project Context
+
+## Overview
+<!-- Brief description of this project -->
+
+## Tech Stack
+<!-- Languages, frameworks, and key dependencies -->
+
+## Architecture
+<!-- High-level architecture and key patterns -->
+
+## Development
+<!-- How to build, test, and run the project -->
+EOF
+  echo "Created docs/agents/project.md — fill in your project details"
+fi
+
+if [ ! -f docs/agents/lessons.md ]; then
+  cat > docs/agents/lessons.md <<'EOF'
+# Lessons Learned
+<!-- Add notes about patterns, gotchas, and fixes worth remembering -->
+EOF
+  echo "Created docs/agents/lessons.md"
+fi
