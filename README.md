@@ -1,6 +1,6 @@
 # Agent Workflows
 
-Reusable workflow prompts for AI coding agents. These Markdown files serve as system prompts that guide agents through structured, phase-based workflows for common software engineering tasks.
+Reusable workflow prompts for AI coding agents. These Markdown files guide agents through structured, phase-based workflows for common software engineering tasks.
 
 ## Repository Structure
 
@@ -11,11 +11,9 @@ doc/agents/
   implementation.md    ← implement code changes
   bugfix.md            ← diagnose and fix bugs
   review.md            ← review code changes
-  rails.md             ← Rails-specific extension
-  javascript.md        ← JS/TS-specific extension
+  stack-rails.md       ← Rails-specific extension
+  stack-javascript.md  ← JS/TS-specific extension
 ```
-
-This mirrors the target structure in your project. `agents.md` tells the agent which workflow to load based on the task.
 
 ## Setup
 
@@ -29,19 +27,18 @@ git clone <repo-url> ~/.agents
 
 The `link` script:
 1. Symlinks `agents.md` to the project root
-2. Symlinks workflow files into `doc/agents/`
-3. Scaffolds `project.md` and `lessons.md` if they don't exist
+2. Symlinks workflow and stack extension files into `doc/agents/`
+3. Scaffolds `doc/agents/project.md` if it doesn't exist
 
 ## Project-Local Files
 
-These are created per-project (not symlinked) and should be committed to your repo:
+Created per-project (not symlinked) and should be committed to your repo:
 
 - `doc/agents/project.md` — project overview, tech stack, architecture, dev setup
-- `doc/agents/lessons.md` — accumulated notes on patterns, gotchas, and fixes
 
 ## How It Works
 
-`agents.md` acts as a router. When an agent reads it, it picks the single workflow that matches the current task:
+`agents.md` acts as a router. When an agent reads it, it picks the workflow that matches the current task:
 
 | Task | Workflow |
 |------|----------|
@@ -50,4 +47,4 @@ These are created per-project (not symlinked) and should be committed to your re
 | Diagnose and fix a bug | `bugfix.md` |
 | Review code or a PR | `review.md` |
 
-Language extensions (`rails.md`, `javascript.md`) are loaded alongside the workflow when the project uses that stack.
+Stack extensions (`stack-rails.md`, `stack-javascript.md`) are loaded alongside the workflow when present in the project.
