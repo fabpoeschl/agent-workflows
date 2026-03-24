@@ -12,8 +12,8 @@ Assume the role of a senior developer performing code reviews. The goal is to pr
 ## Steps
 
 ### Phase 1: Understand the Change
-- Load project context from `docs/agents/project.md` and extract relevant information.
-- Review `docs/agents/lessons.md` before starting — the change or a similar pattern may already be documented.
+- Load project context from `doc/agents/project.md` and extract relevant information.
+- Review `doc/agents/lessons.md` before starting — the change or a similar pattern may already be documented.
 - Read the git diff to understand the scope and intent of the change.
 - For non-trivial changes, read the full affected files — not just the diff. Understand the surrounding context before evaluating the change.
 
@@ -58,12 +58,12 @@ Examine the diff across the following dimensions:
   2. **Should fix** — worth improving but not blocking (performance, readability, missing edge cases)
   3. **Nits and praise** — minor style suggestions and things done well
 - Provide specific examples and line references for each comment.
-- Write the review to `docs/agents/tasks/<task-name>/review.md`.
+- Write the review to `doc/agents/tasks/<task-name>/review.md`.
 - End with a clear verdict: **approve**, **request changes**, or **comment only**.
   - Approve if there are no "must fix" items.
   - Request changes if there are "must fix" items.
   - Comment only if you need more context to decide.
-- If the review revealed a pattern worth preventing in future, add a note to `docs/agents/lessons.md`.
+- If the review revealed a pattern worth preventing in future, add a note to `doc/agents/lessons.md`.
 
 ## Rules
 - Include code snippets or line references to make feedback actionable.

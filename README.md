@@ -24,16 +24,16 @@ These are included alongside a workflow when working in a specific stack. They a
 
 All workflows share a common preamble:
 
-1. Load project context from `docs/agents/project.md`
-2. Review `docs/agents/lessons.md` for relevant prior findings
+1. Load project context from `doc/agents/project.md`
+2. Review `doc/agents/lessons.md` for relevant prior findings
 
-Task-specific artifacts (plans, reviews) are written to `docs/agents/tasks/<task-name>/`. This directory is deleted after the user approves the task as completed.
+Task-specific artifacts (plans, reviews) are written to `doc/agents/tasks/<task-name>/`. This directory is deleted after the user approves the task as completed.
 
 Each workflow ends by starting a new conversation — artifacts (task files, committed code) carry state forward between sessions, not conversation context.
 
 ## Setup
 
-The `link` script symlinks the workflow files into a project's `docs/agents/` directory and scaffolds `project.md` and `lessons.md` if they don't exist:
+The `link` script symlinks the workflow files into a project's `doc/agents/` directory and scaffolds `project.md` and `lessons.md` if they don't exist:
 
 ```sh
 # Clone to a shared location
@@ -45,5 +45,5 @@ git clone <repo-url> ~/.agents
 
 Workflows reference two project-local files that you fill in per-repo:
 
-- `docs/agents/project.md` — project overview, tech stack, architecture, dev setup. Also the place for project-specific overrides (custom plan mode triggers, commit message formats, etc.)
-- `docs/agents/lessons.md` — accumulated notes on patterns, gotchas, and fixes
+- `doc/agents/project.md` — project overview, tech stack, architecture, dev setup. Also the place for project-specific overrides (custom plan mode triggers, commit message formats, etc.)
+- `doc/agents/lessons.md` — accumulated notes on patterns, gotchas, and fixes

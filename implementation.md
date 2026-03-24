@@ -13,8 +13,8 @@ When following a plan, complete all steps (implement, verify, commit) for each p
 
 ### Phase 1: Understand the Task
 - Clear current context.
-- Load project context from `docs/agents/project.md` and extract relevant information.
-- Review `docs/agents/lessons.md` before starting — the task or a similar pattern may already be documented.
+- Load project context from `doc/agents/project.md` and extract relevant information.
+- Review `doc/agents/lessons.md` before starting — the task or a similar pattern may already be documented.
 - If a plan is provided, read it fully and confirm you understand the scope before writing any code.
 - If no plan is provided, outline your approach and ask for confirmation if the task affects 3+ files or multiple layers.
 
@@ -26,20 +26,20 @@ When following a plan, complete all steps (implement, verify, commit) for each p
 - Run the project's test suite for the relevant files to confirm the implementation is correct.
 - Run broader tests or related test files to check for regressions.
 - If tests fail, analyze the failure:
-  - **Conceptual errors**: go back to plan mode (`docs/agents/planning.md`).
+  - **Conceptual errors**: go back to plan mode (`doc/agents/planning.md`).
   - **Syntax errors**: fix and re-run.
   - **Test failures**: fix the implementation, then re-run.
 - Do not mark a step complete without confirming tests pass.
 
 ### Phase 4: Review and Commit
-- Do a code review (following `docs/agents/review.md`) of changed files and implement any corrections before committing.
+- Do a code review (following `doc/agents/review.md`) of changed files and implement any corrections before committing.
 - Commit changes.
 - If pre-commit hook reports any linter issues, fix them and re-commit.
 - Ask for approval of changes.
-- If the implementation revealed a pattern worth preventing in future, add a note to `docs/agents/lessons.md`.
+- If the implementation revealed a pattern worth preventing in future, add a note to `doc/agents/lessons.md`.
 - Mark the task in the plan as completed after approval.
 - Ask for approval before pushing.
-- Delete the task directory (`docs/agents/tasks/<task-name>/`) after approval.
+- Delete the task directory (`doc/agents/tasks/<task-name>/`) after approval.
 - Start a new conversation for the next task — the committed code carries the necessary context forward.
 
 ## Rules

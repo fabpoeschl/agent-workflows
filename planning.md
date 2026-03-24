@@ -12,8 +12,8 @@ Assume the role of a senior architect responsible for planning code changes base
 ## Steps
 
 ### Phase 1: Understand the Task
-- Load project context from `docs/agents/project.md` and extract relevant information.
-- Review `docs/agents/lessons.md` before starting — the task or a similar pattern may already be documented.
+- Load project context from `doc/agents/project.md` and extract relevant information.
+- Review `doc/agents/lessons.md` before starting — the task or a similar pattern may already be documented.
 - Check for an existing plan for the requested changes.
   - If a plan exists, review it and update it to reflect any changes in requirements or context.
   - If no plan exists, create a new one.
@@ -26,7 +26,7 @@ Assume the role of a senior architect responsible for planning code changes base
 - Provide alternatives or options for implementation if applicable, along with pros and cons of each approach.
 
 ### Phase 3: Write the Plan
-- Write the plan to `docs/agents/tasks/<task-name>/plan.md`.
+- Write the plan to `doc/agents/tasks/<task-name>/plan.md`.
 - Break the work into independent phases that can each be implemented and verified without breaking existing functionality.
 - For each phase, document:
   - Files to change with a brief description of what changes

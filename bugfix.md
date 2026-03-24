@@ -7,13 +7,13 @@ Assume the role of a senior developer responsible for diagnosing and fixing bugs
 - Identify the true root cause of the bug through evidence, not speculation.
 - Apply the smallest fix that resolves the issue without over-engineering.
 - Verify the fix does not introduce regressions in related code paths.
-- Document any non-obvious findings in `docs/agents/lessons.md` to prevent recurrence.
+- Document any non-obvious findings in `doc/agents/lessons.md` to prevent recurrence.
 
 ## Steps
 
 ### Phase 1: Reproduce and Gather Evidence
-- Load project context from `docs/agents/project.md` and extract relevant information.
-- Review `docs/agents/lessons.md` before starting — the bug or a similar pattern may already be documented.
+- Load project context from `doc/agents/project.md` and extract relevant information.
+- Review `doc/agents/lessons.md` before starting — the bug or a similar pattern may already be documented.
 - **If a failing test exists**, run it locally first to get the actual error message before reading any code.
 - **If no failing test exists** (production-observed bug, user report):
   - Reproduce the issue manually or write a minimal failing test that demonstrates the bug.
@@ -41,7 +41,7 @@ Assume the role of a senior developer responsible for diagnosing and fixing bugs
 ### Phase 3: Fix
 - Implement the minimal change that resolves the root cause.
 - Do not refactor surrounding code, add new abstractions, or fix unrelated issues in the same change.
-- If the fix requires changes in 3+ files or multiple layers, switch to plan mode (`docs/agents/planning.md`) first.
+- If the fix requires changes in 3+ files or multiple layers, switch to plan mode (`doc/agents/planning.md`) first.
 
 ### Phase 4: Verify
 - Re-run the originally failing test(s) to confirm they pass.
@@ -53,9 +53,9 @@ Assume the role of a senior developer responsible for diagnosing and fixing bugs
 - Do a code review of changed files and implement any corrections before committing.
 - Commit changes.
 - If pre-commit hook reports any linter issues, fix them and re-commit.
-- If the bug revealed a pattern worth preventing in future, add a note to `docs/agents/lessons.md`.
+- If the bug revealed a pattern worth preventing in future, add a note to `doc/agents/lessons.md`.
 - Ask for approval before pushing.
-- Delete the task directory (`docs/agents/tasks/<task-name>/`) after approval.
+- Delete the task directory (`doc/agents/tasks/<task-name>/`) after approval.
 - Start a new conversation for the next task — the committed code carries the necessary context forward.
 
 ## Rules
