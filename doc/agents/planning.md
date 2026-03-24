@@ -27,7 +27,6 @@ Assume the role of a senior architect responsible for planning code changes base
 
 ### Phase 3: Write the Plan
 - Write the plan to `doc/agents/tasks/<task-name>/plan.md`.
-- Start the plan with a `## Version` field (integer, starting at 1) immediately after the title. Increment it whenever the plan is revised after initial approval.
 - Start the plan with a brief `## Summary` section stating the goal and scope of the overall change.
 - Break the work into independent phases that can each be implemented and verified without breaking existing functionality.
 - Use `## Phase N: <Title>` headings (e.g. `## Phase 1: Add base interface`) so individual phases can be extracted at implementation time.
@@ -74,7 +73,6 @@ Update the plan to address any issues found during self-review.
 ### Phase 5: Create Status File
 - After the plan is finalized, create `doc/agents/tasks/<task-name>/status.md` to track implementation progress.
 - The status file must contain:
-  - **Plan reference**: file path and SHA-256 checksum of the plan file (so implementation can detect if the plan changed).
   - **Phase checklist**: one entry per phase, initially all unchecked. Format:
     ```
     - [ ] Phase 1: <Title>
@@ -86,7 +84,6 @@ Update the plan to address any issues found during self-review.
     - from: planning
     - to: implementation
     - resume-at: Phase 1
-    - plan-version: 1
     - notes: <any context the implementer needs, or "none">
     ```
 
