@@ -13,7 +13,7 @@ Assume the role of a senior developer responsible for diagnosing and fixing bugs
 
 ### Phase 1: Reproduce and Gather Evidence
 - Load project context from `doc/agents/project.md` and extract relevant information.
-- Review `doc/agents/lessons.md` and any `doc/agents/lessons-<lang>.md` file before starting — the bug or a similar pattern may already be documented there as a known gotcha.
+- Review `doc/agents/lessons.md` and all `doc/agents/lessons-<lang>.md` files before starting — the bug or a similar pattern may already be documented there as a known gotcha.
 - **If a failing test exists**, run it locally first to get the actual error message before reading any code.
 - **If no failing test exists** (production-observed bug, user report):
   - Reproduce the issue manually or write a minimal failing test that demonstrates the bug.

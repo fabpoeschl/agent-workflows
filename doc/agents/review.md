@@ -13,7 +13,7 @@ Assume the role of a senior developer performing code reviews. The goal is to pr
 
 ### Phase 1: Understand the Change
 - Load project context from `doc/agents/project.md` and extract relevant information.
-- Review `doc/agents/lessons.md` and any `doc/agents/lessons-<lang>.md` file before starting — the change or a similar pattern may already be documented.
+- Review `doc/agents/lessons.md` and all `doc/agents/lessons-<lang>.md` files before starting — the change or a similar pattern may already be documented.
 - Read the git diff to understand the scope and intent of the change.
 - For non-trivial changes, read the full affected files — not just the diff. Understand the surrounding context before evaluating the change.
 
@@ -63,7 +63,7 @@ Examine the diff across the following dimensions:
   - Approve if there are no "must fix" items.
   - Request changes if there are "must fix" items.
   - Comment only if you need more context to decide.
-- During review, check whether the code follows patterns documented in the language-specific lessons file (e.g. `lessons-ruby.md`). Flag deviations as "should fix" items when the documented pattern applies.
+- During review, check whether the code follows patterns documented in the language-specific lessons files (e.g. `lessons-ruby.md`, `lessons-typescript.md`). Flag deviations as "should fix" items when the documented pattern applies.
 - If the review revealed a pattern worth preventing in future, add a note to the appropriate lessons file:
   - Use `doc/agents/lessons-<lang>.md` for language- or framework-specific patterns; use `doc/agents/lessons.md` for cross-cutting concerns (tooling, CI, git, architecture).
   - Place it under the matching category in that file.

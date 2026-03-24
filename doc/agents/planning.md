@@ -13,7 +13,7 @@ Assume the role of a senior architect responsible for planning code changes base
 
 ### Phase 1: Understand the Task
 - Load project context from `doc/agents/project.md` and extract relevant information.
-- Review `doc/agents/lessons.md` and any `doc/agents/lessons-<lang>.md` file before starting — the task or a similar pattern may already be documented.
+- Review `doc/agents/lessons.md` and all `doc/agents/lessons-<lang>.md` files before starting — the task or a similar pattern may already be documented.
 - Check for an existing plan for the requested changes.
   - If a plan exists, review it and update it to reflect any changes in requirements or context.
   - If no plan exists, create a new one.
@@ -31,7 +31,7 @@ Assume the role of a senior architect responsible for planning code changes base
 - Break the work into independent phases that can each be implemented and verified without breaking existing functionality.
 - Use `## Phase N: <Title>` headings (e.g. `## Phase 1: Add base interface`) so individual phases can be extracted at implementation time.
 - Make each phase self-contained: begin with a short context sentence explaining what prior phases produced and what this phase delivers, so it can be understood without reading the full plan.
-- If a language-specific lessons file exists, annotate relevant plan phases with pointers to applicable lessons (e.g. "See `lessons-ruby.md` § Views & Presenters"). This surfaces language-specific guidance at implementation time without requiring the implementer to re-read the full lessons file.
+- If language-specific lessons files exist, annotate relevant plan phases with pointers to applicable lessons (e.g. "See `lessons-ruby.md` § Views & Presenters"). This surfaces language-specific guidance at implementation time without requiring the implementer to re-read the full lessons files.
 - For each phase, document:
   - **File changes**: List every file that will be created, edited, or removed in this phase, with a brief description of the change. This must be consistent with the summary table of critical files.
   - **Tests to add or modify**: Specify test files and what they cover.

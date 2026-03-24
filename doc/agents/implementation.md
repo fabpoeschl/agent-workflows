@@ -14,7 +14,7 @@ When following a plan, complete all steps (implement, verify, commit) for each p
 ### Phase 1: Understand the Task
 - Clear current context.
 - Load project context from `doc/agents/project.md` and extract relevant information.
-- Review `doc/agents/lessons.md` and any `doc/agents/lessons-<lang>.md` file before starting — the task or a similar pattern may already be documented.
+- Review `doc/agents/lessons.md` and all `doc/agents/lessons-<lang>.md` files before starting — the task or a similar pattern may already be documented.
 - If a plan is provided, read only the `## Summary` section and the current `## Phase N` section from the plan file — do not load the entire plan. This keeps context focused on what needs to be done now. If the plan phase references a specific section of a language-specific lessons file (e.g. "See `lessons-ruby.md` § Views & Presenters"), read that section before implementing. Confirm you understand the scope of the current phase before writing any code.
 - If no plan is provided, outline your approach and ask for confirmation if the task affects 3+ files or multiple layers.
 
