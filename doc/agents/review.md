@@ -63,7 +63,11 @@ Examine the diff across the following dimensions:
   - Approve if there are no "must fix" items.
   - Request changes if there are "must fix" items.
   - Comment only if you need more context to decide.
-- If the review revealed a pattern worth preventing in future, add a note to `doc/agents/lessons.md`.
+- If the review revealed a pattern worth preventing in future, add a note to `doc/agents/lessons.md`:
+  - Place it under the matching category (`Testing`, `Architecture`, `Data`, `Tooling`, or `Gotchas`).
+  - Use the format: `### Short title (YYYY-MM-DD)` followed by a brief description, the fix or pattern, and a `Files:` line referencing relevant paths.
+  - Before adding, check the same category for existing entries that cover the same area — remove outdated ones and merge duplicates.
+  - If the file exceeds 100 lines after the addition, prune stale entries to bring it back under 100 lines.
 
 ## Rules
 - Include code snippets or line references to make feedback actionable.

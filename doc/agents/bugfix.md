@@ -53,7 +53,11 @@ Assume the role of a senior developer responsible for diagnosing and fixing bugs
 - Do a code review of changed files and implement any corrections before committing.
 - Commit changes.
 - If pre-commit hook reports any linter issues, fix them and re-commit.
-- If the bug revealed a pattern worth preventing in future, add a note to `doc/agents/lessons.md`.
+- If the bug revealed a pattern worth preventing in future, add a note to `doc/agents/lessons.md`:
+  - Place it under the matching category (`Testing`, `Architecture`, `Data`, `Tooling`, or `Gotchas`).
+  - Use the format: `### Short title (YYYY-MM-DD)` followed by a brief description, the fix or pattern, and a `Files:` line referencing relevant paths.
+  - Before adding, check the same category for existing entries that cover the same area — remove outdated ones and merge duplicates.
+  - If the file exceeds 100 lines after the addition, prune stale entries to bring it back under 100 lines.
 - Ask for approval before pushing.
 - Delete the task directory (`doc/agents/tasks/<task-name>/`) after approval.
 - Start a new conversation for the next task — the committed code carries the necessary context forward.

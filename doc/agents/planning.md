@@ -77,6 +77,11 @@ Update the plan to address any issues found during self-review.
 - Plans should be detailed enough to guide implementation, but concise enough to be easily followed.
 - Each phase of a plan must be non-destructive — it must not break existing functionality.
 - Plans should be reviewed and updated as needed to reflect changes in requirements or context.
+- If the planning process revealed a pattern worth remembering, add a note to `doc/agents/lessons.md`:
+  - Place it under the matching category (`Testing`, `Architecture`, `Data`, `Tooling`, or `Gotchas`).
+  - Use the format: `### Short title (YYYY-MM-DD)` followed by a brief description, the fix or pattern, and a `Files:` line referencing relevant paths.
+  - Before adding, check the same category for existing entries that cover the same area — remove outdated ones and merge duplicates.
+  - If the file exceeds 100 lines after the addition, prune stale entries to bring it back under 100 lines.
 
 ## Style
 - Use clear and concise language, avoiding unnecessary jargon.

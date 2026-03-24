@@ -39,7 +39,24 @@ fi
 if [ ! -f doc/agents/lessons.md ]; then
   cat > doc/agents/lessons.md <<'EOF'
 # Lessons Learned
-<!-- Add notes about patterns, gotchas, and fixes worth remembering -->
+
+<!-- Keep this file under 100 lines. When adding a new entry, remove any
+     outdated or duplicate entries in the same category first. -->
+
+## Testing
+<!-- Test patterns, fixtures, mocking strategies, CI quirks -->
+
+## Architecture
+<!-- Design decisions, patterns adopted or rejected, layer boundaries -->
+
+## Data
+<!-- Schema gotchas, migration pitfalls, query patterns -->
+
+## Tooling
+<!-- Build, lint, deploy, environment setup notes -->
+
+## Gotchas
+<!-- Surprising behaviors, subtle bugs, things that waste time -->
 EOF
   echo "Created doc/agents/lessons.md"
 fi

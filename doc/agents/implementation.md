@@ -36,7 +36,11 @@ When following a plan, complete all steps (implement, verify, commit) for each p
 - Commit changes.
 - If pre-commit hook reports any linter issues, fix them and re-commit.
 - Ask for approval of changes.
-- If the implementation revealed a pattern worth preventing in future, add a note to `doc/agents/lessons.md`.
+- If the implementation revealed a pattern worth preventing in future, add a note to `doc/agents/lessons.md`:
+  - Place it under the matching category (`Testing`, `Architecture`, `Data`, `Tooling`, or `Gotchas`).
+  - Use the format: `### Short title (YYYY-MM-DD)` followed by a brief description, the fix or pattern, and a `Files:` line referencing relevant paths.
+  - Before adding, check the same category for existing entries that cover the same area — remove outdated ones and merge duplicates.
+  - If the file exceeds 100 lines after the addition, prune stale entries to bring it back under 100 lines.
 - Mark the task in the plan as completed after approval.
 - Ask for approval before pushing.
 - Delete the task directory (`doc/agents/tasks/<task-name>/`) after approval.
