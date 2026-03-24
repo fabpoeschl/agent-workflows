@@ -36,7 +36,7 @@ Assume the role of a senior architect responsible for planning code changes base
   - **Tests to add or modify**: Specify test files and what they cover.
   - **Verification plan**: Concrete steps to verify the phase is complete and correct (e.g. commands to run, expected outputs, manual checks). Include which test suites to run and what passing looks like.
 - Include a risk assessment identifying potential issues or challenges during implementation.
-- Provide a summary table of critical files and their actions (create, edit, or remove). Each file in this table must appear in exactly one phase above.
+- Provide a summary table of critical files and their actions (create, edit, or remove). Every file listed in a phase must appear in this table, and vice versa.
 
 ### Phase 4: Self-Review
 Before presenting the plan, review it as if you were reviewing a pull request. Evaluate across these dimensions:
