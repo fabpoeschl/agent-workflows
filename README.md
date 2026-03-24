@@ -11,8 +11,6 @@ doc/agents/
   implementation.md    ← implement code changes
   bugfix.md            ← diagnose and fix bugs
   review.md            ← review code changes
-  stack-rails.md       ← Rails-specific extension
-  stack-javascript.md  ← JS/TS-specific extension
 ```
 
 ## Setup
@@ -27,7 +25,7 @@ git clone <repo-url> ~/.agents
 
 The `link` script:
 1. Symlinks `agents.md` to the project root
-2. Symlinks workflow and stack extension files into `doc/agents/`
+2. Symlinks workflow files into `doc/agents/`
 3. Scaffolds `doc/agents/project.md` if it doesn't exist
 
 ## Project-Local Files
@@ -46,5 +44,3 @@ Created per-project (not symlinked) and should be committed to your repo:
 | Implement code changes | `implementation.md` |
 | Diagnose and fix a bug | `bugfix.md` |
 | Review code or a PR | `review.md` |
-
-Stack extensions (`stack-rails.md`, `stack-javascript.md`) are loaded alongside the workflow when present in the project.

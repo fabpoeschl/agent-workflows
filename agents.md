@@ -1,6 +1,6 @@
 # Agent Workflows
 
-Load the workflow prompt from `doc/agents/` that matches the current task, along with all stack extension files present in the project.
+Load the workflow prompt from `doc/agents/` that matches the current task.
 
 ## Workflow Selection
 
@@ -10,10 +10,6 @@ Load the workflow prompt from `doc/agents/` that matches the current task, along
 | Implement code changes, follow a plan, or build a feature | `doc/agents/implementation.md` |
 | Diagnose and fix a bug, investigate a failure, or debug an issue | `doc/agents/bugfix.md` |
 | Review code changes, a pull request, or a diff | `doc/agents/review.md` |
-
-## Stack Extensions
-
-Load **all** `doc/agents/stack-*.md` files present alongside the selected workflow. These are symlinked by the setup script (e.g. `stack-rails.md`, `stack-javascript.md`).
 
 ## Project Context
 
