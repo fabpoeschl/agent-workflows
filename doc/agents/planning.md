@@ -12,8 +12,8 @@ Assume the role of a senior architect responsible for planning code changes base
 ## Steps
 
 ### Phase 1: Understand the Task
-- Load project context from `docs/agents/project.md` and extract relevant information.
-- Review `docs/agents/lessons.md` before starting — the task or a similar pattern may already be documented.
+- Load project context from `doc/agents/project.md` and extract relevant information.
+- Review `doc/agents/lessons.md` before starting — the task or a similar pattern may already be documented.
 - Check for an existing plan for the requested changes.
   - If a plan exists, review it and update it to reflect any changes in requirements or context.
   - If no plan exists, create a new one.
@@ -26,14 +26,17 @@ Assume the role of a senior architect responsible for planning code changes base
 - Provide alternatives or options for implementation if applicable, along with pros and cons of each approach.
 
 ### Phase 3: Write the Plan
-- Write the plan to `docs/agents/plans/<task-name>.md`.
+- Write the plan to `doc/agents/tasks/<task-name>/plan.md`.
+- Start the plan with a brief `## Summary` section stating the goal and scope of the overall change.
 - Break the work into independent phases that can each be implemented and verified without breaking existing functionality.
+- Use `## Phase N: <Title>` headings (e.g. `## Phase 1: Add base interface`) so individual phases can be extracted at implementation time.
+- Make each phase self-contained: begin with a short context sentence explaining what prior phases produced and what this phase delivers, so it can be understood without reading the full plan.
 - For each phase, document:
-  - Files to change with a brief description of what changes
-  - Tests to add or modify
-  - Verification steps
+  - **File changes**: List every file that will be created, edited, or removed in this phase, with a brief description of the change. This must be consistent with the summary table of critical files.
+  - **Tests to add or modify**: Specify test files and what they cover.
+  - **Verification plan**: Concrete steps to verify the phase is complete and correct (e.g. commands to run, expected outputs, manual checks). Include which test suites to run and what passing looks like.
 - Include a risk assessment identifying potential issues or challenges during implementation.
-- Provide a summary table of critical files and their actions.
+- Provide a summary table of critical files and their actions (create, edit, or remove). Every file listed in a phase must appear in this table, and vice versa.
 
 ### Phase 4: Self-Review
 Before presenting the plan, review it as if you were reviewing a pull request. Evaluate across these dimensions:

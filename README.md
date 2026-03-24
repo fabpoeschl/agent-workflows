@@ -1,39 +1,23 @@
 # Agent Workflows
 
-Reusable workflow configurations for AI coding agents. These Markdown files serve as system prompts that guide agents through structured, phase-based workflows for common software engineering tasks.
+Reusable workflow prompts for AI coding agents. These Markdown files serve as system prompts that guide agents through structured, phase-based workflows for common software engineering tasks.
 
-## Workflows
+## Repository Structure
 
-| File | Purpose |
-|------|---------|
-| `planning.md` | Plan new features or complex refactorings with phased, reviewable designs |
-| `implementation.md` | Implement code changes following a structured build-verify-commit cycle |
-| `bugfix.md` | Diagnose and fix bugs through evidence-based root cause analysis |
-| `review.md` | Perform code reviews across correctness, performance, security, and architecture |
+```
+agents.md              ← top-level dispatch (symlinked to project root)
+doc/agents/
+  planning.md          ← plan features and refactorings
+  implementation.md    ← implement code changes
+  bugfix.md            ← diagnose and fix bugs
+  review.md            ← review code changes
+  rails.md             ← Rails-specific extension
+  javascript.md        ← JS/TS-specific extension
+```
 
-## Language-Specific Extensions
-
-These are included alongside a workflow when working in a specific stack. They add framework-specific commands, testing rules, and review checklists — core workflow rules still apply.
-
-| File | Purpose |
-|------|---------|
-| `rails.md` | Rails conventions: test commands, migration practices, N+1 detection, CI debugging |
-| `javascript.md` | JS/TS conventions: test runners, ESLint/Prettier, type checking, component testing |
-
-## Conventions
-
-All workflows share a common preamble:
-
-1. Load project context from `docs/agents/project.md`
-2. Review `docs/agents/lessons.md` for relevant prior findings
-
-Plans are written to `docs/agents/plans/<task-name>.md`.
-
-Each workflow ends by starting a new conversation — artifacts (plan files, committed code) carry state forward between sessions, not conversation context.
+This mirrors the target structure in your project. `agents.md` tells the agent which workflow to load based on the task.
 
 ## Setup
-
-The `link` script symlinks the workflow files into a project's `docs/agents/` directory and scaffolds `project.md` and `lessons.md` if they don't exist:
 
 ```sh
 # Clone to a shared location
@@ -43,7 +27,27 @@ git clone <repo-url> ~/.agents
 ~/.agents/link
 ```
 
-Workflows reference two project-local files that you fill in per-repo:
+The `link` script:
+1. Symlinks `agents.md` to the project root
+2. Symlinks workflow files into `doc/agents/`
+3. Scaffolds `project.md` and `lessons.md` if they don't exist
 
-- `docs/agents/project.md` — project overview, tech stack, architecture, dev setup. Also the place for project-specific overrides (custom plan mode triggers, commit message formats, etc.)
-- `docs/agents/lessons.md` — accumulated notes on patterns, gotchas, and fixes
+## Project-Local Files
+
+These are created per-project (not symlinked) and should be committed to your repo:
+
+- `doc/agents/project.md` — project overview, tech stack, architecture, dev setup
+- `doc/agents/lessons.md` — accumulated notes on patterns, gotchas, and fixes
+
+## How It Works
+
+`agents.md` acts as a router. When an agent reads it, it picks the single workflow that matches the current task:
+
+| Task | Workflow |
+|------|----------|
+| Plan a feature or refactoring | `planning.md` |
+| Implement code changes | `implementation.md` |
+| Diagnose and fix a bug | `bugfix.md` |
+| Review code or a PR | `review.md` |
+
+Language extensions (`rails.md`, `javascript.md`) are loaded alongside the workflow when the project uses that stack.

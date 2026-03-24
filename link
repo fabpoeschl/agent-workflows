@@ -1,17 +1,24 @@
 #!/bin/sh
 set -e
 
-AGENTS_DIR="$HOME/.agents"
+AGENTS_DIR="${AGENTS_DIR:-$HOME/.agents}"
 
-mkdir -p docs/agents
+# Symlink agents.md to project root
+ln -sf "$AGENTS_DIR/agents.md" agents.md
 
-for file in "$AGENTS_DIR"/*.md; do
+# Symlink workflow files into doc/agents/
+mkdir -p doc/agents
+for file in "$AGENTS_DIR"/doc/agents/*.md; do
   [ -f "$file" ] || continue
-  ln -sf "$file" "docs/agents/$(basename "$file")"
+  name="$(basename "$file")"
+  # Skip project-local files
+  case "$name" in project.md|lessons.md) continue;; esac
+  ln -sf "$file" "doc/agents/$name"
 done
 
-if [ ! -f docs/agents/project.md ]; then
-  cat > docs/agents/project.md <<'EOF'
+# Scaffold project-local files if they don't exist
+if [ ! -f doc/agents/project.md ]; then
+  cat > doc/agents/project.md <<'EOF'
 # Project Context
 
 ## Overview
@@ -26,13 +33,13 @@ if [ ! -f docs/agents/project.md ]; then
 ## Development
 <!-- How to build, test, and run the project -->
 EOF
-  echo "Created docs/agents/project.md — fill in your project details"
+  echo "Created doc/agents/project.md — fill in your project details"
 fi
 
-if [ ! -f docs/agents/lessons.md ]; then
-  cat > docs/agents/lessons.md <<'EOF'
+if [ ! -f doc/agents/lessons.md ]; then
+  cat > doc/agents/lessons.md <<'EOF'
 # Lessons Learned
 <!-- Add notes about patterns, gotchas, and fixes worth remembering -->
 EOF
-  echo "Created docs/agents/lessons.md"
+  echo "Created doc/agents/lessons.md"
 fi
