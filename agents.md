@@ -1,6 +1,6 @@
 # Agent Workflows
 
-Load the workflow prompt from `doc/agents/` that matches the current task. Only load one workflow at a time. If the task also involves a specific language or framework, load the matching extension file alongside the workflow.
+Load the workflow prompt from `doc/agents/` that matches the current task. Only load one workflow at a time. Also load all stack extension files present in the project.
 
 ## Workflow Selection
 
@@ -11,14 +11,9 @@ Load the workflow prompt from `doc/agents/` that matches the current task. Only 
 | Diagnose and fix a bug, investigate a failure, or debug an issue | `doc/agents/bugfix.md` |
 | Review code changes, a pull request, or a diff | `doc/agents/review.md` |
 
-## Language Extensions
+## Stack Extensions
 
-Load one of these alongside the selected workflow when the project uses that stack:
-
-| Stack | Load |
-|-------|------|
-| Ruby on Rails | `doc/agents/rails.md` |
-| JavaScript / TypeScript | `doc/agents/javascript.md` |
+Load **all** `doc/agents/stack-*.md` files present alongside the selected workflow. These are linked automatically by the setup script based on detected project stacks (e.g. a Rails app with a JavaScript frontend gets both `stack-rails.md` and `stack-javascript.md`).
 
 ## Project Context
 
