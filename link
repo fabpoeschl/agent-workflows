@@ -11,8 +11,11 @@ fi
 # Symlink agents.md to project root
 ln -sf "$AGENTS_DIR/agents.md" agents.md
 
-# Symlink workflow files into doc/agents/ (skip project-local files)
+# Remove dangling symlinks from previous runs (e.g. after file renames)
 mkdir -p doc/agents
+for file in doc/agents/*.md; do
+  [ -L "$file" ] && [ ! -e "$file" ] && rm "$file"
+done
 for file in "$AGENTS_DIR"/doc/agents/*.md; do
   [ -f "$file" ] || continue
   name="$(basename "$file")"
