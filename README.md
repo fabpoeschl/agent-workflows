@@ -27,9 +27,9 @@ All workflows share a common preamble:
 1. Load project context from `docs/agents/project.md`
 2. Review `docs/agents/lessons.md` for relevant prior findings
 
-Plans are written to `docs/agents/plans/<task-name>.md`.
+Task-specific artifacts (plans, reviews) are written to `docs/agents/tasks/<task-name>/`. This directory is deleted after the user approves the task as completed.
 
-Each workflow ends by starting a new conversation — artifacts (plan files, committed code) carry state forward between sessions, not conversation context.
+Each workflow ends by starting a new conversation — artifacts (task files, committed code) carry state forward between sessions, not conversation context.
 
 ## Setup
 

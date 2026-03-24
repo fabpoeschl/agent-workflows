@@ -26,7 +26,7 @@ Assume the role of a senior architect responsible for planning code changes base
 - Provide alternatives or options for implementation if applicable, along with pros and cons of each approach.
 
 ### Phase 3: Write the Plan
-- Write the plan to `docs/agents/plans/<task-name>.md`.
+- Write the plan to `docs/agents/tasks/<task-name>/plan.md`.
 - Break the work into independent phases that can each be implemented and verified without breaking existing functionality.
 - For each phase, document:
   - Files to change with a brief description of what changes

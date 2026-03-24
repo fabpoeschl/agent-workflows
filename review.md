@@ -58,6 +58,7 @@ Examine the diff across the following dimensions:
   2. **Should fix** — worth improving but not blocking (performance, readability, missing edge cases)
   3. **Nits and praise** — minor style suggestions and things done well
 - Provide specific examples and line references for each comment.
+- Write the review to `docs/agents/tasks/<task-name>/review.md`.
 - End with a clear verdict: **approve**, **request changes**, or **comment only**.
   - Approve if there are no "must fix" items.
   - Request changes if there are "must fix" items.

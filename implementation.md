@@ -39,7 +39,7 @@ When following a plan, complete all steps (implement, verify, commit) for each p
 - If the implementation revealed a pattern worth preventing in future, add a note to `docs/agents/lessons.md`.
 - Mark the task in the plan as completed after approval.
 - Ask for approval before pushing.
-- Delete any plan and review files created during this task.
+- Delete the task directory (`docs/agents/tasks/<task-name>/`) after approval.
 - Start a new conversation for the next task — the committed code carries the necessary context forward.
 
 ## Rules

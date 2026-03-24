@@ -55,7 +55,7 @@ Assume the role of a senior developer responsible for diagnosing and fixing bugs
 - If pre-commit hook reports any linter issues, fix them and re-commit.
 - If the bug revealed a pattern worth preventing in future, add a note to `docs/agents/lessons.md`.
 - Ask for approval before pushing.
-- Delete any plan and review files created during this task.
+- Delete the task directory (`docs/agents/tasks/<task-name>/`) after approval.
 - Start a new conversation for the next task — the committed code carries the necessary context forward.
 
 ## Rules
