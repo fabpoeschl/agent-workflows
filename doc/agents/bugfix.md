@@ -57,7 +57,7 @@ Assume the role of a senior developer responsible for diagnosing and fixing bugs
   - Use `doc/agents/lessons-<lang>.md` for language- or framework-specific patterns; use `doc/agents/lessons.md` for cross-cutting concerns (tooling, CI, git, architecture).
   - Place it under the matching category in that file.
   - Use the format: `### Short title (YYYY-MM-DD)` followed by a brief description, the fix or pattern, and a `Files:` line referencing relevant paths.
-  - Before adding, check the same category for existing entries that cover the same area — remove outdated ones and merge duplicates.
+  - Before adding, check the same category for existing entries that cover the same area — remove outdated ones and merge duplicates. Also check other lessons files (`lessons.md` and all `lessons-<lang>.md`) to avoid duplicating an entry that already exists elsewhere.
   - If the file exceeds 100 lines after the addition, prune stale entries to bring it back under 100 lines.
 - Ask for approval before pushing.
 - Delete the task directory (`doc/agents/tasks/<task-name>/`) after approval.
