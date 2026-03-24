@@ -1,31 +1,11 @@
 # Rails-Specific Agent Configuration
 
-Include this alongside other agent docs when working on Rails projects.
-
-## Running Tests
-```
-PARALLEL_WORKERS=1 bundle exec rails test path/to/test.rb
-PARALLEL_WORKERS=1 bundle exec rails test path/to/test.rb:<line_number>
-```
-
-## Linting
-```
-bundle exec rubocop path/to/changed_file.rb
-```
-Follow the project's `.rubocop.yml` for Ruby style and `.eslintrc` for JavaScript style.
-
-## API Documentation
-If specs in `spec/integration` were added or changed, run `bundle exec rswag` to update swagger docs.
+Include this alongside other agent docs when working on Rails projects. For project-specific test, lint, and build commands, see `doc/agents/project.md`.
 
 ## Testing Rules
 - Before defining a complex mock, check `test/support/` for existing stubs and helpers.
 - Prefer factories over fixtures for test data setup, considering dependency chains.
 - Add view tests for static content and simple interactions; use system tests for complex interactions.
-
-## Plan Mode Triggers
-In addition to the general triggers, use plan mode when:
-- Database schema or migration changes are needed
-- Caching layer changes are needed
 
 ## Code Review Extras
 In addition to the general review checklist, check for:

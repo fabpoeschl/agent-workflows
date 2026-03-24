@@ -3,16 +3,21 @@ set -e
 
 AGENTS_DIR="${AGENTS_DIR:-$HOME/.agents}"
 
+if [ ! -d "$AGENTS_DIR" ]; then
+  echo "Error: $AGENTS_DIR does not exist. Clone the agents repo there or set AGENTS_DIR." >&2
+  exit 1
+fi
+
 # Symlink agents.md to project root
 ln -sf "$AGENTS_DIR/agents.md" agents.md
 
-# Symlink workflow files into doc/agents/
+# Symlink workflow files into doc/agents/ (skip project-local files)
 mkdir -p doc/agents
 for file in "$AGENTS_DIR"/doc/agents/*.md; do
   [ -f "$file" ] || continue
   name="$(basename "$file")"
   # Skip project-local files
-  case "$name" in project.md|lessons.md) continue;; esac
+  case "$name" in project.md) continue;; esac
   ln -sf "$file" "doc/agents/$name"
 done
 
@@ -34,12 +39,4 @@ if [ ! -f doc/agents/project.md ]; then
 <!-- How to build, test, and run the project -->
 EOF
   echo "Created doc/agents/project.md — fill in your project details"
-fi
-
-if [ ! -f doc/agents/lessons.md ]; then
-  cat > doc/agents/lessons.md <<'EOF'
-# Lessons Learned
-<!-- Add notes about patterns, gotchas, and fixes worth remembering -->
-EOF
-  echo "Created doc/agents/lessons.md"
 fi
