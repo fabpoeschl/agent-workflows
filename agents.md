@@ -1,6 +1,6 @@
 # Agent Workflows
 
-Load the workflow prompt from `doc/agents/` that matches the current task. Only load one workflow at a time. Also load all stack extension files present in the project.
+Load the workflow prompt from `doc/agents/` that matches the current task, along with all stack extension files present in the project.
 
 ## Workflow Selection
 
@@ -13,11 +13,8 @@ Load the workflow prompt from `doc/agents/` that matches the current task. Only 
 
 ## Stack Extensions
 
-Load **all** `doc/agents/stack-*.md` files present alongside the selected workflow. These are linked automatically by the setup script based on detected project stacks (e.g. a Rails app with a JavaScript frontend gets both `stack-rails.md` and `stack-javascript.md`).
+Load **all** `doc/agents/stack-*.md` files present alongside the selected workflow. These are symlinked by the setup script (e.g. `stack-rails.md`, `stack-javascript.md`).
 
 ## Project Context
 
-All workflows expect these project-local files to exist:
-
-- `doc/agents/project.md` — project overview, tech stack, architecture, dev setup
-- `doc/agents/lessons.md` — accumulated notes on patterns, gotchas, and fixes
+All workflows expect `doc/agents/project.md` to exist — project overview, tech stack, architecture, dev setup.

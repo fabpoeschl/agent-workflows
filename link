@@ -3,18 +3,21 @@ set -e
 
 AGENTS_DIR="${AGENTS_DIR:-$HOME/.agents}"
 
+if [ ! -d "$AGENTS_DIR" ]; then
+  echo "Error: $AGENTS_DIR does not exist. Clone the agents repo there or set AGENTS_DIR." >&2
+  exit 1
+fi
+
 # Symlink agents.md to project root
 ln -sf "$AGENTS_DIR/agents.md" agents.md
 
-# Symlink workflow files into doc/agents/ (skip project-local and stack-specific files)
+# Symlink workflow files into doc/agents/ (skip project-local files)
 mkdir -p doc/agents
 for file in "$AGENTS_DIR"/doc/agents/*.md; do
   [ -f "$file" ] || continue
   name="$(basename "$file")"
   # Skip project-local files
-  case "$name" in project.md|lessons.md|lessons-*.md) continue;; esac
-  # Skip stack files — handled separately based on detection
-  case "$name" in stack-*.md) continue;; esac
+  case "$name" in project.md) continue;; esac
   ln -sf "$file" "doc/agents/$name"
 done
 
@@ -36,180 +39,4 @@ if [ ! -f doc/agents/project.md ]; then
 <!-- How to build, test, and run the project -->
 EOF
   echo "Created doc/agents/project.md — fill in your project details"
-fi
-
-# Detect all stacks present in the project (returns space-separated list)
-detect_stacks() {
-  stacks=""
-  if [ -f Gemfile ]; then stacks="$stacks ruby"; fi
-  if [ -f pyproject.toml ] || [ -f setup.py ] || [ -f requirements.txt ]; then stacks="$stacks python"; fi
-  if [ -f package.json ]; then stacks="$stacks typescript"; fi
-  if [ -f go.mod ]; then stacks="$stacks go"; fi
-  if [ -f Cargo.toml ]; then stacks="$stacks rust"; fi
-  if [ -f pom.xml ] || [ -f build.gradle ]; then stacks="$stacks java"; fi
-  if [ -f mix.exs ]; then stacks="$stacks elixir"; fi
-  echo "$stacks"
-}
-
-# Map a detected stack to its stack-*.md extension file (if one exists)
-stack_extension() {
-  case "$1" in
-    ruby) echo "stack-rails.md" ;;
-    typescript) echo "stack-javascript.md" ;;
-    *) echo "" ;;
-  esac
-}
-
-STACKS="$(detect_stacks)"
-
-# Symlink matching stack extension files (skip if a local override exists)
-for stack in $STACKS; do
-  ext="$(stack_extension "$stack")"
-  [ -z "$ext" ] && continue
-  src="$AGENTS_DIR/doc/agents/$ext"
-  dest="doc/agents/$ext"
-  [ -f "$src" ] || continue
-  # Skip if a non-symlink local override already exists
-  if [ -f "$dest" ] && [ ! -L "$dest" ]; then
-    echo "Keeping local override: $dest"
-    continue
-  fi
-  ln -sf "$src" "$dest"
-done
-
-# Scaffold language-specific lessons files for each detected stack
-for stack in $STACKS; do
-  [ -f "doc/agents/lessons-${stack}.md" ] && continue
-  case "$stack" in
-    ruby)
-      cat > "doc/agents/lessons-${stack}.md" <<'EOF'
-# Ruby / Rails Lessons
-
-<!-- Keep this file under 100 lines. Prune stale entries before adding new ones. -->
-
-## Models & ActiveRecord
-<!-- Query patterns, N+1 traps, scopes, validations, callbacks -->
-
-## Controllers
-<!-- Params handling, before_actions, response formats -->
-
-## Views & Presenters
-<!-- Decorators, helpers, partials, view objects -->
-
-## Jobs & Services
-<!-- Background jobs, service objects, interactors -->
-
-## Testing
-<!-- RSpec patterns, factory setup, test isolation -->
-EOF
-      ;;
-    python)
-      cat > "doc/agents/lessons-${stack}.md" <<'EOF'
-# Python Lessons
-
-<!-- Keep this file under 100 lines. Prune stale entries before adding new ones. -->
-
-## Models & ORM
-<!-- Django/SQLAlchemy patterns, migrations, querysets -->
-
-## Views & API
-<!-- Serializers, views, middleware, request handling -->
-
-## Data & Types
-<!-- Type hints, dataclasses, pydantic, validation -->
-
-## Async & Tasks
-<!-- Celery, asyncio, concurrency patterns -->
-
-## Testing
-<!-- pytest patterns, fixtures, mocking, parametrize -->
-EOF
-      ;;
-    typescript)
-      cat > "doc/agents/lessons-${stack}.md" <<'EOF'
-# TypeScript Lessons
-
-<!-- Keep this file under 100 lines. Prune stale entries before adding new ones. -->
-
-## Components & UI
-<!-- React/Vue patterns, state, rendering, hooks -->
-
-## State & Data Fetching
-<!-- Store patterns, API calls, caching -->
-
-## Types & Interfaces
-<!-- Type patterns, generics, discriminated unions -->
-
-## Build & Bundling
-<!-- Bundler config, tree-shaking, module resolution -->
-
-## Testing
-<!-- Jest/Vitest patterns, component testing, mocking -->
-EOF
-      ;;
-    go)
-      cat > "doc/agents/lessons-${stack}.md" <<'EOF'
-# Go Lessons
-
-<!-- Keep this file under 100 lines. Prune stale entries before adding new ones. -->
-
-## Concurrency
-<!-- Goroutines, channels, sync patterns, race conditions -->
-
-## Interfaces & Types
-<!-- Interface design, type assertions, embedding -->
-
-## Error Handling
-<!-- Error wrapping, sentinel errors, error types -->
-
-## HTTP & API
-<!-- Handler patterns, middleware, routing -->
-
-## Testing
-<!-- Table-driven tests, testify, httptest, mocking -->
-EOF
-      ;;
-    *)
-      cat > "doc/agents/lessons-${stack}.md" <<'EOF'
-# Language-Specific Lessons
-
-<!-- Keep this file under 100 lines. Prune stale entries before adding new ones. -->
-
-## Patterns
-<!-- Language idioms and conventions -->
-
-## Gotchas
-<!-- Surprising behaviors, common mistakes -->
-
-## Testing
-<!-- Test patterns and strategies -->
-EOF
-      ;;
-  esac
-  echo "Created doc/agents/lessons-${stack}.md"
-done
-
-if [ ! -f doc/agents/lessons.md ]; then
-  cat > doc/agents/lessons.md <<'EOF'
-# Lessons Learned
-
-<!-- Keep this file under 100 lines. When adding a new entry, remove any
-     outdated or duplicate entries in the same category first. -->
-
-## Testing
-<!-- Test patterns, fixtures, mocking strategies, CI quirks -->
-
-## Architecture
-<!-- Design decisions, patterns adopted or rejected, layer boundaries -->
-
-## Data
-<!-- Schema gotchas, migration pitfalls, query patterns -->
-
-## Tooling
-<!-- Build, lint, deploy, environment setup notes -->
-
-## Gotchas
-<!-- Surprising behaviors, subtle bugs, things that waste time -->
-EOF
-  echo "Created doc/agents/lessons.md"
 fi
