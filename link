@@ -12,7 +12,7 @@ for file in "$AGENTS_DIR"/doc/agents/*.md; do
   [ -f "$file" ] || continue
   name="$(basename "$file")"
   # Skip project-local files
-  case "$name" in project.md|lessons.md) continue;; esac
+  case "$name" in project.md|lessons.md|lessons-*.md) continue;; esac
   ln -sf "$file" "doc/agents/$name"
 done
 
@@ -34,6 +34,130 @@ if [ ! -f doc/agents/project.md ]; then
 <!-- How to build, test, and run the project -->
 EOF
   echo "Created doc/agents/project.md — fill in your project details"
+fi
+
+# Detect language and scaffold language-specific lessons file
+detect_lang() {
+  if [ -f Gemfile ]; then echo "ruby"
+  elif [ -f pyproject.toml ] || [ -f setup.py ] || [ -f requirements.txt ]; then echo "python"
+  elif [ -f package.json ]; then echo "typescript"
+  elif [ -f go.mod ]; then echo "go"
+  elif [ -f Cargo.toml ]; then echo "rust"
+  elif [ -f pom.xml ] || [ -f build.gradle ]; then echo "java"
+  elif [ -f mix.exs ]; then echo "elixir"
+  else echo ""
+  fi
+}
+
+LANG_ID="$(detect_lang)"
+if [ -n "$LANG_ID" ] && [ ! -f "doc/agents/lessons-${LANG_ID}.md" ]; then
+  case "$LANG_ID" in
+    ruby)
+      cat > "doc/agents/lessons-${LANG_ID}.md" <<'EOF'
+# Ruby / Rails Lessons
+
+<!-- Keep this file under 100 lines. Prune stale entries before adding new ones. -->
+
+## Models & ActiveRecord
+<!-- Query patterns, N+1 traps, scopes, validations, callbacks -->
+
+## Controllers
+<!-- Params handling, before_actions, response formats -->
+
+## Views & Presenters
+<!-- Decorators, helpers, partials, view objects -->
+
+## Jobs & Services
+<!-- Background jobs, service objects, interactors -->
+
+## Testing
+<!-- RSpec patterns, factory setup, test isolation -->
+EOF
+      ;;
+    python)
+      cat > "doc/agents/lessons-${LANG_ID}.md" <<'EOF'
+# Python Lessons
+
+<!-- Keep this file under 100 lines. Prune stale entries before adding new ones. -->
+
+## Models & ORM
+<!-- Django/SQLAlchemy patterns, migrations, querysets -->
+
+## Views & API
+<!-- Serializers, views, middleware, request handling -->
+
+## Data & Types
+<!-- Type hints, dataclasses, pydantic, validation -->
+
+## Async & Tasks
+<!-- Celery, asyncio, concurrency patterns -->
+
+## Testing
+<!-- pytest patterns, fixtures, mocking, parametrize -->
+EOF
+      ;;
+    typescript)
+      cat > "doc/agents/lessons-${LANG_ID}.md" <<'EOF'
+# TypeScript Lessons
+
+<!-- Keep this file under 100 lines. Prune stale entries before adding new ones. -->
+
+## Components & UI
+<!-- React/Vue patterns, state, rendering, hooks -->
+
+## State & Data Fetching
+<!-- Store patterns, API calls, caching -->
+
+## Types & Interfaces
+<!-- Type patterns, generics, discriminated unions -->
+
+## Build & Bundling
+<!-- Bundler config, tree-shaking, module resolution -->
+
+## Testing
+<!-- Jest/Vitest patterns, component testing, mocking -->
+EOF
+      ;;
+    go)
+      cat > "doc/agents/lessons-${LANG_ID}.md" <<'EOF'
+# Go Lessons
+
+<!-- Keep this file under 100 lines. Prune stale entries before adding new ones. -->
+
+## Concurrency
+<!-- Goroutines, channels, sync patterns, race conditions -->
+
+## Interfaces & Types
+<!-- Interface design, type assertions, embedding -->
+
+## Error Handling
+<!-- Error wrapping, sentinel errors, error types -->
+
+## HTTP & API
+<!-- Handler patterns, middleware, routing -->
+
+## Testing
+<!-- Table-driven tests, testify, httptest, mocking -->
+EOF
+      ;;
+    *)
+      cat > "doc/agents/lessons-${LANG_ID}.md" <<'EOF'
+# Language-Specific Lessons
+
+<!-- Keep this file under 100 lines. Prune stale entries before adding new ones. -->
+
+## Patterns
+<!-- Language idioms and conventions -->
+
+## Gotchas
+<!-- Surprising behaviors, common mistakes -->
+
+## Testing
+<!-- Test patterns and strategies -->
+EOF
+      ;;
+  esac
+  echo "Created doc/agents/lessons-${LANG_ID}.md"
 fi
 
 if [ ! -f doc/agents/lessons.md ]; then

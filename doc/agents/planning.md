@@ -13,7 +13,7 @@ Assume the role of a senior architect responsible for planning code changes base
 
 ### Phase 1: Understand the Task
 - Load project context from `doc/agents/project.md` and extract relevant information.
-- Review `doc/agents/lessons.md` before starting — the task or a similar pattern may already be documented.
+- Review `doc/agents/lessons.md` and any `doc/agents/lessons-<lang>.md` file before starting — the task or a similar pattern may already be documented.
 - Check for an existing plan for the requested changes.
   - If a plan exists, review it and update it to reflect any changes in requirements or context.
   - If no plan exists, create a new one.
@@ -31,6 +31,7 @@ Assume the role of a senior architect responsible for planning code changes base
 - Break the work into independent phases that can each be implemented and verified without breaking existing functionality.
 - Use `## Phase N: <Title>` headings (e.g. `## Phase 1: Add base interface`) so individual phases can be extracted at implementation time.
 - Make each phase self-contained: begin with a short context sentence explaining what prior phases produced and what this phase delivers, so it can be understood without reading the full plan.
+- If a language-specific lessons file exists, annotate relevant plan phases with pointers to applicable lessons (e.g. "See `lessons-ruby.md` § Views & Presenters"). This surfaces language-specific guidance at implementation time without requiring the implementer to re-read the full lessons file.
 - For each phase, document:
   - **File changes**: List every file that will be created, edited, or removed in this phase, with a brief description of the change. This must be consistent with the summary table of critical files.
   - **Tests to add or modify**: Specify test files and what they cover.
@@ -77,8 +78,9 @@ Update the plan to address any issues found during self-review.
 - Plans should be detailed enough to guide implementation, but concise enough to be easily followed.
 - Each phase of a plan must be non-destructive — it must not break existing functionality.
 - Plans should be reviewed and updated as needed to reflect changes in requirements or context.
-- If the planning process revealed a pattern worth remembering, add a note to `doc/agents/lessons.md`:
-  - Place it under the matching category (`Testing`, `Architecture`, `Data`, `Tooling`, or `Gotchas`).
+- If the planning process revealed a pattern worth remembering, add a note to the appropriate lessons file:
+  - Use `doc/agents/lessons-<lang>.md` for language- or framework-specific patterns; use `doc/agents/lessons.md` for cross-cutting concerns (tooling, CI, git, architecture).
+  - Place it under the matching category in that file.
   - Use the format: `### Short title (YYYY-MM-DD)` followed by a brief description, the fix or pattern, and a `Files:` line referencing relevant paths.
   - Before adding, check the same category for existing entries that cover the same area — remove outdated ones and merge duplicates.
   - If the file exceeds 100 lines after the addition, prune stale entries to bring it back under 100 lines.

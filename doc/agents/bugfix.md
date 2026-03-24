@@ -13,7 +13,7 @@ Assume the role of a senior developer responsible for diagnosing and fixing bugs
 
 ### Phase 1: Reproduce and Gather Evidence
 - Load project context from `doc/agents/project.md` and extract relevant information.
-- Review `doc/agents/lessons.md` before starting — the bug or a similar pattern may already be documented.
+- Review `doc/agents/lessons.md` and any `doc/agents/lessons-<lang>.md` file before starting — the bug or a similar pattern may already be documented there as a known gotcha.
 - **If a failing test exists**, run it locally first to get the actual error message before reading any code.
 - **If no failing test exists** (production-observed bug, user report):
   - Reproduce the issue manually or write a minimal failing test that demonstrates the bug.
@@ -53,8 +53,9 @@ Assume the role of a senior developer responsible for diagnosing and fixing bugs
 - Do a code review of changed files and implement any corrections before committing.
 - Commit changes.
 - If pre-commit hook reports any linter issues, fix them and re-commit.
-- If the bug revealed a pattern worth preventing in future, add a note to `doc/agents/lessons.md`:
-  - Place it under the matching category (`Testing`, `Architecture`, `Data`, `Tooling`, or `Gotchas`).
+- If the bug revealed a pattern worth preventing in future, add a note to the appropriate lessons file:
+  - Use `doc/agents/lessons-<lang>.md` for language- or framework-specific patterns; use `doc/agents/lessons.md` for cross-cutting concerns (tooling, CI, git, architecture).
+  - Place it under the matching category in that file.
   - Use the format: `### Short title (YYYY-MM-DD)` followed by a brief description, the fix or pattern, and a `Files:` line referencing relevant paths.
   - Before adding, check the same category for existing entries that cover the same area — remove outdated ones and merge duplicates.
   - If the file exceeds 100 lines after the addition, prune stale entries to bring it back under 100 lines.

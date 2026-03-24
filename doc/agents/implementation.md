@@ -14,8 +14,8 @@ When following a plan, complete all steps (implement, verify, commit) for each p
 ### Phase 1: Understand the Task
 - Clear current context.
 - Load project context from `doc/agents/project.md` and extract relevant information.
-- Review `doc/agents/lessons.md` before starting — the task or a similar pattern may already be documented.
-- If a plan is provided, read only the `## Summary` section and the current `## Phase N` section from the plan file — do not load the entire plan. This keeps context focused on what needs to be done now. Confirm you understand the scope of the current phase before writing any code.
+- Review `doc/agents/lessons.md` and any `doc/agents/lessons-<lang>.md` file before starting — the task or a similar pattern may already be documented.
+- If a plan is provided, read only the `## Summary` section and the current `## Phase N` section from the plan file — do not load the entire plan. This keeps context focused on what needs to be done now. If the plan phase references a specific section of a language-specific lessons file (e.g. "See `lessons-ruby.md` § Views & Presenters"), read that section before implementing. Confirm you understand the scope of the current phase before writing any code.
 - If no plan is provided, outline your approach and ask for confirmation if the task affects 3+ files or multiple layers.
 
 ### Phase 2: Implement
@@ -36,8 +36,9 @@ When following a plan, complete all steps (implement, verify, commit) for each p
 - Commit changes.
 - If pre-commit hook reports any linter issues, fix them and re-commit.
 - Ask for approval of changes.
-- If the implementation revealed a pattern worth preventing in future, add a note to `doc/agents/lessons.md`:
-  - Place it under the matching category (`Testing`, `Architecture`, `Data`, `Tooling`, or `Gotchas`).
+- If the implementation revealed a pattern worth preventing in future, add a note to the appropriate lessons file:
+  - Use `doc/agents/lessons-<lang>.md` for language- or framework-specific patterns; use `doc/agents/lessons.md` for cross-cutting concerns (tooling, CI, git, architecture).
+  - Place it under the matching category in that file.
   - Use the format: `### Short title (YYYY-MM-DD)` followed by a brief description, the fix or pattern, and a `Files:` line referencing relevant paths.
   - Before adding, check the same category for existing entries that cover the same area — remove outdated ones and merge duplicates.
   - If the file exceeds 100 lines after the addition, prune stale entries to bring it back under 100 lines.
