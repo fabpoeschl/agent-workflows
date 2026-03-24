@@ -27,7 +27,10 @@ Assume the role of a senior architect responsible for planning code changes base
 
 ### Phase 3: Write the Plan
 - Write the plan to `doc/agents/tasks/<task-name>/plan.md`.
+- Start the plan with a brief `## Summary` section stating the goal and scope of the overall change.
 - Break the work into independent phases that can each be implemented and verified without breaking existing functionality.
+- Use `## Phase N: <Title>` headings (e.g. `## Phase 1: Add base interface`) so individual phases can be extracted at implementation time.
+- Make each phase self-contained: begin with a short context sentence explaining what prior phases produced and what this phase delivers, so it can be understood without reading the full plan.
 - For each phase, document:
   - Files to change with a brief description of what changes
   - Tests to add or modify

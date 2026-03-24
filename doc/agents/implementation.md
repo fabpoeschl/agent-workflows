@@ -15,7 +15,7 @@ When following a plan, complete all steps (implement, verify, commit) for each p
 - Clear current context.
 - Load project context from `doc/agents/project.md` and extract relevant information.
 - Review `doc/agents/lessons.md` before starting — the task or a similar pattern may already be documented.
-- If a plan is provided, read it fully and confirm you understand the scope before writing any code.
+- If a plan is provided, read only the `## Summary` section and the current `## Phase N` section from the plan file — do not load the entire plan. This keeps context focused on what needs to be done now. Confirm you understand the scope of the current phase before writing any code.
 - If no plan is provided, outline your approach and ask for confirmation if the task affects 3+ files or multiple layers.
 
 ### Phase 2: Implement
