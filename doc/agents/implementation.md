@@ -15,7 +15,12 @@ When following a plan, complete all steps (implement, verify, commit) for each p
 - Clear current context.
 - Load project context from `doc/agents/project.md` and extract relevant information.
 - Review `doc/agents/lessons.md` and all `doc/agents/lessons-<lang>.md` files before starting — the task or a similar pattern may already be documented.
-- If a plan is provided, read only the `## Summary` section and the current `## Phase N` section from the plan file — do not load the entire plan. This keeps context focused on what needs to be done now. If the plan phase references a specific section of a language-specific lessons file (e.g. "See `lessons-ruby.md` § Views & Presenters"), read that section before implementing. Confirm you understand the scope of the current phase before writing any code.
+- If a plan is provided:
+  - Read `doc/agents/tasks/<task-name>/status.md` first to determine which phase to resume at. If no status file exists, start at Phase 1.
+  - Verify the plan has not changed since the status file was created by comparing the plan file's SHA-256 checksum against the one recorded in `status.md`. If the checksum differs, stop and notify the user that the plan was modified — do not proceed until the user confirms the current plan is correct and the status file is updated.
+  - Read only the `## Summary` section and the current `## Phase N` section from the plan file — do not load the entire plan. This keeps context focused on what needs to be done now. If the plan phase references a specific section of a language-specific lessons file (e.g. "See `lessons-ruby.md` § Views & Presenters"), read that section before implementing.
+  - **Pre-flight check (Phase N > 1)**: Before starting a phase, verify that all prior phases are marked complete in `status.md` and that their recorded commit SHAs exist in git history. Run the test suite to confirm prior work has not regressed. If any check fails, stop and report the issue to the user.
+  - Confirm you understand the scope of the current phase before writing any code.
 - If no plan is provided, outline your approach and ask for confirmation if the task affects 3+ files or multiple layers.
 
 ### Phase 2: Implement
@@ -35,6 +40,9 @@ When following a plan, complete all steps (implement, verify, commit) for each p
 - Do a code review (following `doc/agents/review.md`) of changed files and implement any corrections before committing.
 - Commit changes.
 - If pre-commit hook reports any linter issues, fix them and re-commit.
+- After committing, update `doc/agents/tasks/<task-name>/status.md`:
+  - Mark the completed phase with `[x]` and append the commit SHA: `- [x] Phase N: <Title> — commit: <sha>`
+  - Update the `## Handoff` section with the next resume point and any notes for the next conversation (e.g., migrations to run, environment changes). If all phases are complete, set `resume-at: done`.
 - Ask for approval of changes.
 - If the implementation revealed a pattern worth preventing in future, add a note to the appropriate lessons file:
   - Use `doc/agents/lessons-<lang>.md` for language- or framework-specific patterns; use `doc/agents/lessons.md` for cross-cutting concerns (tooling, CI, git, architecture).
@@ -67,6 +75,8 @@ When following a plan, complete all steps (implement, verify, commit) for each p
   - `test: <short description of tests added>`
   - `fix: <short description of what was fixed>`
   - `chore: <short description of chore>`
+- When following a plan, include the task name and phase in commit messages so phase completion is verifiable from git history:
+  - `feat(<task-name>): <description> [phase N]`
 
 ## Communication
 - Do not explain code changes in comments unless absolutely necessary.
