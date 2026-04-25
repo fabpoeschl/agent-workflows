@@ -1,16 +1,26 @@
 # Agent Workflows
 
-Reusable workflow prompts for AI coding agents. These Markdown files guide agents through structured, phase-based workflows for common software engineering tasks.
+Reusable workflow prompts and project context for AI coding agents.
 
 ## Repository Structure
 
 ```
-agents.md              ← top-level dispatch (symlinked to project root)
-doc/agents/
+AGENTS.md              ← top-level dispatch (symlinked to project root as AGENTS.md + CLAUDE.md)
+workflows/
   planning.md          ← plan features and refactorings
   implementation.md    ← implement code changes
   bugfix.md            ← diagnose and fix bugs
   review.md            ← review code changes
+stack/
+  rails.md             ← Rails-specific conventions and patterns
+  javascript.md        ← JavaScript-specific conventions and patterns
+  python.md            ← Python-specific conventions and patterns
+projects/              ← per-project context and tasks (gitignored)
+  <project-name>/
+    context.md         ← project overview, tech stack, architecture, dev setup
+    tasks/
+      <task>-plan.md   ← created by agent in plan mode
+      <task>-review.md ← created by agent during review
 ```
 
 ## Setup
@@ -24,23 +34,21 @@ git clone <repo-url> ~/.agents
 ```
 
 The `link` script:
-1. Symlinks `agents.md` to the project root
-2. Symlinks workflow files into `doc/agents/`
-3. Scaffolds `doc/agents/project.md` if it doesn't exist
+1. Creates `.agents → ~/.agents` symlink in the project root
+2. Creates `.agents-project` with the project name (derived from the git root)
+3. Symlinks `AGENTS.md` (OpenCode) and `CLAUDE.md` (Claude Code) to the project root
+4. Migrates `doc/agents/project.md` to `projects/<name>/context.md` if found
+5. Scaffolds `projects/<name>/context.md` if it doesn't exist
+6. Installs a `post-checkout` hook so new git worktrees auto-link
 
-## Project-Local Files
+## Worktrees
 
-Created per-project (not symlinked) and should be committed to your repo:
+After running `link` once in the main worktree, any `git worktree add` will automatically run `link` in the new worktree via the `post-checkout` hook. All worktrees of the same project share the same `projects/<name>/` directory, so plans and reviews are visible everywhere without copying files.
 
-- `doc/agents/project.md` — project overview, tech stack, architecture, dev setup
+## Project Context
 
-## How It Works
+Fill in `.agents/projects/<name>/context.md` after first setup. This file is loaded by every workflow and should cover: project overview, tech stack, architecture, and development setup.
 
-`agents.md` acts as a router. When an agent reads it, it picks the workflow that matches the current task:
+## Stack Files
 
-| Task | Workflow |
-|------|----------|
-| Plan a feature or refactoring | `planning.md` |
-| Implement code changes | `implementation.md` |
-| Diagnose and fix a bug | `bugfix.md` |
-| Review code or a PR | `review.md` |
+Edit the relevant file in `stack/` to capture conventions, testing patterns, and common pitfalls for your tech stack. Agents load the matching stack file based on what's declared in the project context.

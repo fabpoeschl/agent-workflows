@@ -3,7 +3,7 @@
 ## Steps
 
 ### Phase 1: Reproduce
-- Load project context from `doc/agents/project.md`.
+- Read `.agents-project` to get the project name, then load `.agents/projects/<name>/context.md`.
 - Run the failing test (or write one) to get the actual error before reading code. Do not proceed to root cause analysis until the bug is reproducible.
 - For CI-only failures (pass locally, fail on CI):
   - Do not investigate without the full CI failure output — ask the user if not provided.
@@ -12,13 +12,13 @@
 
 ### Phase 2: Fix
 - Identify root cause with evidence, then implement the minimal fix.
-- If the fix requires changes in 3+ files or multiple layers, switch to plan mode (`doc/agents/planning.md`) first.
+- If the fix requires changes in 3+ files or multiple layers, switch to plan mode (`.agents/workflows/planning.md`) first.
 
 ### Phase 3: Verify and Commit
 - Re-run the originally failing test(s), the full test file, and linters.
 - Commit changes. If pre-commit hook reports issues, fix and re-commit.
 - Ask for approval before pushing.
-- If a task directory exists (`doc/agents/tasks/<task-name>/`), delete it after approval.
+- If a plan file exists (`.agents/projects/<name>/tasks/<task-name>-plan.md`), delete it after approval.
 
 ## Rules
 - Do not mock internal application code; only mock external services (HTTP boundaries).

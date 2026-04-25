@@ -8,25 +8,51 @@ if [ ! -d "$AGENTS_DIR" ]; then
   exit 1
 fi
 
-# Symlink agents.md to project root
-ln -sf "$AGENTS_DIR/agents.md" agents.md
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+  echo "Error: not in a git repository." >&2
+  exit 1
+fi
 
-# Remove dangling symlinks from previous runs (e.g. after file renames)
-mkdir -p doc/agents
-for file in doc/agents/*.md; do
-  [ -L "$file" ] && [ ! -e "$file" ] && rm "$file"
-done
-for file in "$AGENTS_DIR"/doc/agents/*.md; do
-  [ -f "$file" ] || continue
-  name="$(basename "$file")"
-  # Skip project-local files
-  case "$name" in project.md) continue;; esac
-  ln -sf "$file" "doc/agents/$name"
-done
+# Resolve project name from the main worktree root (works for linked worktrees too)
+main_root=$(git worktree list | head -1 | awk '{print $1}')
+project_name=$(basename "$main_root")
 
-# Scaffold project-local files if they don't exist
-if [ ! -f doc/agents/project.md ]; then
-  cat > doc/agents/project.md <<'EOF'
+# Create .agents symlink pointing to the agents repo
+ln -sfn "$AGENTS_DIR" .agents
+
+# Write project name for agents to read
+echo "$project_name" > .agents-project
+
+# Symlink AGENTS.md (OpenCode) and CLAUDE.md (Claude Code) to project root
+ln -sf "$AGENTS_DIR/AGENTS.md" AGENTS.md
+ln -sf "$AGENTS_DIR/AGENTS.md" CLAUDE.md
+
+# Remove old agents.md symlink from previous runs
+[ -L "agents.md" ] && rm "agents.md" || true
+
+# Migrate old doc/agents/ setup if present
+if [ -d "doc/agents" ]; then
+  # Copy project.md to new location before removing symlinks
+  if [ -f "doc/agents/project.md" ] && [ ! -L "doc/agents/project.md" ]; then
+    dest="$AGENTS_DIR/projects/$project_name/context.md"
+    mkdir -p "$AGENTS_DIR/projects/$project_name"
+    if [ ! -f "$dest" ]; then
+      cp "doc/agents/project.md" "$dest"
+      echo "Migrated doc/agents/project.md → .agents/projects/$project_name/context.md"
+    fi
+  fi
+  # Remove symlinks created by the old link script
+  for file in doc/agents/*.md; do
+    [ -L "$file" ] && rm "$file"
+  done
+  rmdir doc/agents 2>/dev/null || true
+  rmdir doc 2>/dev/null || true
+fi
+
+# Scaffold project context if it doesn't exist
+mkdir -p "$AGENTS_DIR/projects/$project_name/tasks"
+if [ ! -f "$AGENTS_DIR/projects/$project_name/context.md" ]; then
+  cat > "$AGENTS_DIR/projects/$project_name/context.md" <<'EOF'
 # Project Context
 
 ## Overview
@@ -41,5 +67,26 @@ if [ ! -f doc/agents/project.md ]; then
 ## Development
 <!-- How to build, test, and run the project -->
 EOF
-  echo "Created doc/agents/project.md — fill in your project details"
+  echo "Created .agents/projects/$project_name/context.md — fill in your project details"
 fi
+
+# Install post-checkout hook in the main worktree so new worktrees auto-link
+hook_dir="$main_root/.git/hooks"
+hook_file="$hook_dir/post-checkout"
+mkdir -p "$hook_dir"
+
+if [ ! -f "$hook_file" ]; then
+  cat > "$hook_file" <<'HOOK'
+#!/bin/sh
+# Auto-link agents repo for new worktrees
+[ ! -L ".agents" ] && [ -f "${AGENTS_DIR:-$HOME/.agents}/link" ] && "${AGENTS_DIR:-$HOME/.agents}/link"
+HOOK
+  chmod +x "$hook_file"
+  echo "Installed post-checkout hook — new worktrees will auto-link"
+elif ! grep -q "Auto-link agents" "$hook_file" 2>/dev/null; then
+  echo "Warning: post-checkout hook already exists at $hook_file and was not modified."
+  echo "Add this line to auto-link new worktrees:"
+  printf '  [ ! -L ".agents" ] && [ -f "${AGENTS_DIR:-$HOME/.agents}/link" ] && "${AGENTS_DIR:-$HOME/.agents}/link"\n'
+fi
+
+echo "Done: $project_name → $AGENTS_DIR"

@@ -1,16 +1,16 @@
 # Agent Workflows
 
-Load the workflow prompt from `doc/agents/` that matches the current task.
+## Context to load
 
-## Workflow Selection
+1. Read `.agents-project` to get the project name.
+2. Load `.agents/projects/<name>/context.md` for project overview, tech stack, architecture, and dev setup.
+3. Load the relevant stack file from `.agents/stack/` based on the project's tech stack (e.g. `.agents/stack/rails.md`).
+
+## Workflow selection
 
 | When the task is to... | Load |
 |------------------------|------|
-| Plan a new feature, design a refactoring, or scope a complex change | `doc/agents/planning.md` |
-| Implement code changes, follow a plan, or build a feature | `doc/agents/implementation.md` |
-| Diagnose and fix a bug, investigate a failure, or debug an issue | `doc/agents/bugfix.md` |
-| Review code changes, a pull request, or a diff | `doc/agents/review.md` |
-
-## Project Context
-
-All workflows expect `doc/agents/project.md` to exist — project overview, tech stack, architecture, dev setup.
+| Plan a new feature, design a refactoring, or scope a complex change | `.agents/workflows/planning.md` |
+| Implement code changes, follow a plan, or build a feature | `.agents/workflows/implementation.md` |
+| Diagnose and fix a bug, investigate a failure, or debug an issue | `.agents/workflows/bugfix.md` |
+| Review code changes, a pull request, or a diff | `.agents/workflows/review.md` |

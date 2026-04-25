@@ -6,7 +6,7 @@ When following a plan, complete all steps (implement, verify, commit) for each p
 
 ### Phase 1: Understand the Task
 - Start a new conversation.
-- Load project context from `doc/agents/project.md`.
+- Read `.agents-project` to get the project name, then load `.agents/projects/<name>/context.md`.
 - If a plan is provided, read only the `## Summary` and current `## Phase N` section — do not load the entire plan.
 - If no plan is provided, outline your approach and ask for confirmation if the task affects 3+ files or multiple layers.
 
@@ -18,14 +18,14 @@ When following a plan, complete all steps (implement, verify, commit) for each p
 - If a phase requires more than 3 attempts without meaningful progress, stop and present findings to the user.
 
 ### Phase 3: Review and Commit
-- Do a code review (following `doc/agents/review.md`) of changed files and implement any corrections before committing.
+- Do a code review (following `.agents/workflows/review.md`) of changed files and implement any corrections before committing.
 - Commit changes. If pre-commit hook reports issues, fix and re-commit.
 - Ask for approval before pushing.
-- If a task directory exists (`doc/agents/tasks/<task-name>/`), delete it after approval.
+- If a plan file exists (`.agents/projects/<name>/tasks/<task-name>-plan.md`), delete it after approval.
 - Start a new conversation for the next task.
 
 ## Rules
-- If no plan exists, use plan mode (`doc/agents/planning.md`) when the task requires: 3+ files, 2+ layers, schema changes, API changes, or auth changes.
+- If no plan exists, use plan mode (`.agents/workflows/planning.md`) when the task requires: 3+ files, 2+ layers, schema changes, API changes, or auth changes.
 - Do not mock internal application code; only mock external services (HTTP boundaries).
 - Use conventional commit messages: `feat:`, `fix:`, `test:`, `chore:`
 - When following a plan: `feat(<task-name>): <description> [phase N]`
