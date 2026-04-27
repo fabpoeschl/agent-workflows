@@ -2,9 +2,8 @@
 
 ## Context to load
 
-1. Read `.agents-project` to get the project name.
-2. Load `.agents/projects/<name>/context.md` for project overview, tech stack, architecture, and dev setup.
-3. Load the relevant stack file from `.agents/stack/` based on the project's tech stack (e.g. `.agents/stack/rails.md`).
+1. Load `doc/context.md` for project overview, tech stack, architecture, and dev setup.
+2. Load the relevant stack file from `.agents/stack/` based on the project's tech stack (e.g. `.agents/stack/rails.md`).
 
 ## Workflow selection
 

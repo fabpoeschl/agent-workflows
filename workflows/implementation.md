@@ -6,7 +6,7 @@ When following a plan, complete all steps (implement, verify, commit) for each p
 
 ### Phase 1: Understand the Task
 - Start a new conversation.
-- Read `.agents-project` to get the project name, then load `.agents/projects/<name>/context.md`.
+- Load project context from `doc/context.md`.
 - If a plan is provided, read only the `## Summary` and current `## Phase N` section — do not load the entire plan.
 - If no plan is provided, outline your approach and ask for confirmation if the task affects 3+ files or multiple layers.
 
@@ -21,7 +21,7 @@ When following a plan, complete all steps (implement, verify, commit) for each p
 - Do a code review (following `.agents/workflows/review.md`) of changed files and implement any corrections before committing.
 - Commit changes. If pre-commit hook reports issues, fix and re-commit.
 - Ask for approval before pushing.
-- If a plan file exists (`.agents/projects/<name>/tasks/<task-name>-plan.md`), delete it after approval.
+- If a plan file exists (`doc/plans/<task-name>.md`), delete it after approval.
 - Start a new conversation for the next task.
 
 ## Rules

@@ -49,8 +49,20 @@ if [ -d "doc/agents" ]; then
   rmdir doc 2>/dev/null || true
 fi
 
-# Scaffold project context if it doesn't exist
-mkdir -p "$AGENTS_DIR/projects/$project_name/tasks"
+# Scaffold project directories and symlink them into doc/
+mkdir -p doc
+for dir in plans reviews tasks; do
+  mkdir -p "$AGENTS_DIR/projects/$project_name/$dir"
+  # Migrate existing real directories into .agents
+  for loc in "$dir" "doc/$dir"; do
+    if [ -d "$loc" ] && [ ! -L "$loc" ]; then
+      cp -rn "$loc"/. "$AGENTS_DIR/projects/$project_name/$dir/" 2>/dev/null || true
+      rm -rf "$loc"
+      echo "Migrated $loc/ → .agents/projects/$project_name/$dir/"
+    fi
+  done
+  ln -sfn "../.agents/projects/$project_name/$dir" "doc/$dir"
+done
 if [ ! -f "$AGENTS_DIR/projects/$project_name/context.md" ]; then
   cat > "$AGENTS_DIR/projects/$project_name/context.md" <<'EOF'
 # Project Context
@@ -69,6 +81,7 @@ if [ ! -f "$AGENTS_DIR/projects/$project_name/context.md" ]; then
 EOF
   echo "Created .agents/projects/$project_name/context.md — fill in your project details"
 fi
+ln -sf "../.agents/projects/$project_name/context.md" doc/context.md
 
 # Install post-checkout hook in the main worktree so new worktrees auto-link
 hook_dir="$main_root/.git/hooks"
@@ -88,5 +101,12 @@ elif ! grep -q "Auto-link agents" "$hook_file" 2>/dev/null; then
   echo "Add this line to auto-link new worktrees:"
   printf '  [ ! -L ".agents" ] && [ -f "${AGENTS_DIR:-$HOME/.agents}/link" ] && "${AGENTS_DIR:-$HOME/.agents}/link"\n'
 fi
+
+# Ensure generated files are in the project's .gitignore
+for entry in .agents .agents-project AGENTS.md CLAUDE.md doc/context.md doc/plans doc/reviews doc/tasks; do
+  if ! grep -qxF "$entry" .gitignore 2>/dev/null; then
+    echo "$entry" >> .gitignore
+  fi
+done
 
 echo "Done: $project_name → $AGENTS_DIR"

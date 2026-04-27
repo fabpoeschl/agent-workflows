@@ -2,7 +2,7 @@
 
 ## Output
 
-Write the plan to `.agents/projects/<name>/tasks/<task-name>-plan.md` (read `.agents-project` for `<name>`).
+Write the plan to `doc/plans/<task-name>.md`.
 
 Structure:
 - `## Summary` — goal and scope in a few sentences
