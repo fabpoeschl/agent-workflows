@@ -17,52 +17,15 @@ fi
 main_root=$(git worktree list | head -1 | awk '{print $1}')
 project_name=$(basename "$main_root")
 
-# Create .agents symlink pointing to the agents repo
+# Symlink .agents, AGENTS.md and CLAUDE.md to project root
 ln -sfn "$AGENTS_DIR" .agents
-
-# Write project name for agents to read
-echo "$project_name" > .agents-project
-
-# Symlink AGENTS.md (OpenCode) and CLAUDE.md (Claude Code) to project root
 ln -sf "$AGENTS_DIR/AGENTS.md" AGENTS.md
 ln -sf "$AGENTS_DIR/AGENTS.md" CLAUDE.md
 
-# Remove old agents.md symlink from previous runs
-[ -L "agents.md" ] && rm "agents.md" || true
+# Scaffold doc/ with project-specific directories and context
+mkdir -p doc "$AGENTS_DIR/projects/$project_name/specs"
+ln -sfn "../.agents/projects/$project_name/specs" doc/specs
 
-# Migrate old doc/agents/ setup if present
-if [ -d "doc/agents" ]; then
-  # Copy project.md to new location before removing symlinks
-  if [ -f "doc/agents/project.md" ] && [ ! -L "doc/agents/project.md" ]; then
-    dest="$AGENTS_DIR/projects/$project_name/context.md"
-    mkdir -p "$AGENTS_DIR/projects/$project_name"
-    if [ ! -f "$dest" ]; then
-      cp "doc/agents/project.md" "$dest"
-      echo "Migrated doc/agents/project.md → .agents/projects/$project_name/context.md"
-    fi
-  fi
-  # Remove symlinks created by the old link script
-  for file in doc/agents/*.md; do
-    [ -L "$file" ] && rm "$file"
-  done
-  rmdir doc/agents 2>/dev/null || true
-  rmdir doc 2>/dev/null || true
-fi
-
-# Scaffold project directories and symlink them into doc/
-mkdir -p doc
-for dir in plans reviews tasks; do
-  mkdir -p "$AGENTS_DIR/projects/$project_name/$dir"
-  # Migrate existing real directories into .agents
-  for loc in "$dir" "doc/$dir"; do
-    if [ -d "$loc" ] && [ ! -L "$loc" ]; then
-      cp -rn "$loc"/. "$AGENTS_DIR/projects/$project_name/$dir/" 2>/dev/null || true
-      rm -rf "$loc"
-      echo "Migrated $loc/ → .agents/projects/$project_name/$dir/"
-    fi
-  done
-  ln -sfn "../.agents/projects/$project_name/$dir" "doc/$dir"
-done
 if [ ! -f "$AGENTS_DIR/projects/$project_name/context.md" ]; then
   cat > "$AGENTS_DIR/projects/$project_name/context.md" <<'EOF'
 # Project Context
@@ -82,6 +45,10 @@ EOF
   echo "Created .agents/projects/$project_name/context.md — fill in your project details"
 fi
 ln -sf "../.agents/projects/$project_name/context.md" doc/context.md
+
+# Symlink .claude/commands to agents commands directory
+mkdir -p .claude
+ln -sfn "$AGENTS_DIR/commands" .claude/commands
 
 # Install post-checkout hook in the main worktree so new worktrees auto-link
 hook_dir="$main_root/.git/hooks"
@@ -103,7 +70,7 @@ elif ! grep -q "Auto-link agents" "$hook_file" 2>/dev/null; then
 fi
 
 # Ensure generated files are in the project's .gitignore
-for entry in .agents .agents-project AGENTS.md CLAUDE.md doc/context.md doc/plans doc/reviews doc/tasks; do
+for entry in .agents AGENTS.md CLAUDE.md doc/context.md doc/specs .claude/commands; do
   if ! grep -qxF "$entry" .gitignore 2>/dev/null; then
     echo "$entry" >> .gitignore
   fi
