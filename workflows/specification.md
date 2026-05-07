@@ -16,7 +16,7 @@ After each group, incorporate the answers and ask follow-up questions if needed.
 
 ## Phase 3: Write Specification
 
-Write the spec to `doc/specs/<feature-name>.yaml`.
+Resolve the specs directory: use `$SPECS_DIR` if set, otherwise default to `doc/specs`. Create it if missing (`mkdir -p`), then write the spec to `<specs-dir>/<feature-name>.yaml`.
 
 Structure:
 ```yaml
@@ -45,7 +45,7 @@ Present the spec and wait for approval.
 
 ## Phase 4: Write Tests
 
-Compact context, then load `doc/specs/<feature-name>.yaml`.
+Compact context, then load `<specs-dir>/<feature-name>.yaml` (resolving `<specs-dir>` the same way as Phase 3).
 
 Write tests before any implementation:
 - One test per contract
