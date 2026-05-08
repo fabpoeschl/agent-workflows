@@ -41,6 +41,9 @@ if [ ! -f "$AGENTS_DIR/projects/$project_name/context.md" ]; then
 
 ## Development
 <!-- How to build, test, and run the project -->
+
+## Test directories
+<!-- Paths the spec workflow may write tests to, one per line (e.g., test/, spec/) -->
 EOF
   echo "Created .agents/projects/$project_name/context.md — fill in your project details"
 fi
