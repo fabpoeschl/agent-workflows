@@ -30,6 +30,8 @@ if [ ! -f "$AGENTS_DIR/projects/$project_name/context.md" ]; then
   cat > "$AGENTS_DIR/projects/$project_name/context.md" <<'EOF'
 # Project Context
 
+Cross-cutting rules: see `.agents/conventions.md`.
+
 ## Overview
 <!-- Brief description of this project -->
 

@@ -8,10 +8,9 @@ task:
   input:
     spec_path: "${AGENTS_DIR:-$HOME/.agents}/projects/<project>/specs/<feature>.yaml"
     project_context: "doc/context.md"
-    conventions: ".agents/conventions.md"
     failing_tests: "test files written during the specification phase"
   output:
-    format: "diff"
+    format: "git-commit"
   access:
     read:
       - "<project-root>/**"
@@ -22,6 +21,7 @@ task:
       - "${AGENTS_DIR:-$HOME/.agents}/**"
   exit_when:
     - "all spec tests pass, no existing tests regressed"
+    - "changes committed following the conventions referenced from doc/context.md"
   constraints:
     - "no behavior outside the spec"
     - "no code without a test covering it"
@@ -30,8 +30,7 @@ task:
 ## Phase 1: Load Context
 
 - Spec: `${AGENTS_DIR:-$HOME/.agents}/projects/<project>/specs/<feature>.yaml`
-- `doc/context.md` for project shape and constraints
-- `.agents/conventions.md` for global rules
+- `doc/context.md` for project shape, constraints, and links to any cross-cutting rules (e.g., commit conventions)
 - The failing tests from the specification phase
 
 ## Phase 2: Verify Tests Fail
@@ -54,3 +53,9 @@ Stay strictly within the spec. No refactors of adjacent code, no extra features,
 - No code added that isn't covered by a test
 
 If any of these fail, fix before reporting done.
+
+## Phase 5: Commit
+
+- Stage the implementation files and the test files added for this spec.
+- Compose a commit message following the conventions linked from `doc/context.md` (e.g., `feat:` for new behavior, `fix:` for bug fixes). Use the spec's `feature` and `description` for the subject line.
+- Run `git commit`. Do not push — leave that to the user.

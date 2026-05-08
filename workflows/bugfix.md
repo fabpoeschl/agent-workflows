@@ -8,7 +8,6 @@ task:
   input:
     failure: "reproduction or failing test"
     project_context: "doc/context.md"
-    conventions: ".agents/conventions.md"
   output:
     format: "diff"
     artifacts:

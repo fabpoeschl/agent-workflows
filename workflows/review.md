@@ -8,7 +8,6 @@ task:
   input:
     diff: "git diff"
     project_context: "doc/context.md"
-    conventions: ".agents/conventions.md"
   output:
     format: "structured-review"
     schema:

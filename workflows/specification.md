@@ -8,7 +8,6 @@ task:
   input:
     user_request: "free-form description"
     project_context: "doc/context.md"
-    conventions: ".agents/conventions.md"
   output:
     format: "yaml + test files"
     spec_path: "${AGENTS_DIR:-$HOME/.agents}/projects/<project>/specs/<feature>.yaml"
