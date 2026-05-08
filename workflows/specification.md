@@ -1,5 +1,28 @@
 # Specification Workflow
 
+## Task Contract
+
+```yaml
+task:
+  goal: "Produce an unambiguous feature spec via interview, with failing tests"
+  input:
+    user_request: "free-form description"
+    project_context: "doc/context.md"
+  output:
+    format: "yaml + test files"
+    spec_path: "${AGENTS_DIR:-$HOME/.agents}/projects/<project>/specs/<feature>.yaml"
+  access:
+    read:
+      - "<project-root>/**"
+      - "${AGENTS_DIR:-$HOME/.agents}/projects/<project>/**"
+    write:
+      - "${AGENTS_DIR:-$HOME/.agents}/projects/<project>/specs/"
+      - "<test_dirs from .agents/projects/<project>/config.yaml>"
+  exit_when:
+    - "spec written and approved by user"
+    - "failing test exists for each contract"
+```
+
 ## Phase 1: Read Requirements
 
 Read the provided requirements. Identify what is clear, what is ambiguous, and what is missing before asking anything.
