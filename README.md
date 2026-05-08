@@ -6,19 +6,20 @@ Reusable workflow prompts and project context for AI coding agents.
 
 ```
 AGENTS.md              ← top-level dispatch (symlinked to project root as AGENTS.md + CLAUDE.md)
-workflows/
-  specification.md     ← interview for requirements, write specs and tests
-  implementation.md    ← implement code changes
-  bugfix.md            ← diagnose and fix bugs
-  review.md            ← review a diff
+conventions.md         ← cross-cutting rules (currently: commit conventions)
+workflows/             ← each file declares a Task Contract (inputs, outputs, access, exit conditions)
+  specification.md     ← interview, write spec + failing tests
+  implementation.md    ← turn the spec's failing tests green, commit
+  bugfix.md            ← diagnose, fix, commit
+  review.md            ← tiered review of a diff (read-only)
 commands/
   spec.md              ← /spec command (Claude Code)
   review.md            ← /review command (Claude Code)
   fix.md               ← /fix command (Claude Code)
-projects/              ← per-project context and specs (gitignored)
+projects/              ← per-project state (gitignored)
   <project-name>/
-    context.md         ← project overview, tech stack, architecture, conventions, dev setup
-    specs/             ← YAML spec files created during specification workflow
+    context.md         ← project shape, test directories, link to conventions
+    specs/             ← YAML specs; agent resolves the path as $AGENTS_DIR/projects/<name>/specs
 ```
 
 ## Setup
@@ -36,7 +37,7 @@ The `link` script:
 2. Symlinks `AGENTS.md` (OpenCode) and `CLAUDE.md` (Claude Code) to the project root
 3. Symlinks `.claude/commands → .agents/commands` for Claude Code slash commands
 4. Scaffolds `projects/<name>/context.md` and `projects/<name>/specs/` if they don't exist
-5. Symlinks `doc/context.md` and `doc/specs/` into the project
+5. Symlinks `doc/context.md` and `doc/specs/` into the project (for human browsing)
 6. Installs a `post-checkout` hook so new git worktrees auto-link
 7. Adds all generated files to `.gitignore`
 
@@ -44,6 +45,19 @@ The `link` script:
 
 After running `link` once in the main worktree, any `git worktree add` will automatically run `link` in the new worktree via the `post-checkout` hook. All worktrees share the same `projects/<name>/` directory.
 
+## Workflows and contracts
+
+Each workflow file opens with a `## Task Contract` YAML block declaring:
+
+- `input` — files the agent reads
+- `output` — what the run produces (e.g., `git-commit`, `structured-review`)
+- `access` — read / write / deny_write rules per phase
+- `exit_when` — conditions that signal the run is done
+
+Specs are resolved as `${AGENTS_DIR:-$HOME/.agents}/projects/<project>/specs/<feature>.yaml` — the env-var path, not the `doc/specs` symlink, so the agent sees the same specs across all worktrees and sessions. The symlink stays for human browsing.
+
+`implementation.md` and `bugfix.md` end with a commit step; neither pushes — that's left to the user. The implementation workflow doesn't pin a model — pick one at invocation.
+
 ## Project Context
 
-Fill in `doc/context.md` after first setup. Every workflow loads this file — it should cover project overview, tech stack, architecture, conventions, and development setup.
+Fill in `doc/context.md` after first setup. Sections: overview, tech stack, architecture, development, test directories. The top of the file links to `.agents/conventions.md` for cross-cutting rules. Every workflow loads `doc/context.md`.
