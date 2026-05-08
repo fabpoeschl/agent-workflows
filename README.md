@@ -18,7 +18,8 @@ commands/
   fix.md               ← /fix command (Claude Code)
 projects/              ← per-project state (gitignored)
   <project-name>/
-    context.md         ← project shape, test directories, link to conventions
+    context.md         ← prose project shape, link to conventions
+    config.yaml        ← machine-readable project config (test_dirs, etc.)
     specs/             ← YAML specs; agent resolves the path as $AGENTS_DIR/projects/<name>/specs
 ```
 
@@ -36,8 +37,8 @@ The `link` script:
 1. Symlinks `.agents → ~/.agents` in the project root
 2. Symlinks `AGENTS.md` (OpenCode) and `CLAUDE.md` (Claude Code) to the project root
 3. Symlinks `.claude/commands → .agents/commands` for Claude Code slash commands
-4. Scaffolds `projects/<name>/context.md` and `projects/<name>/specs/` if they don't exist
-5. Symlinks `doc/context.md` and `doc/specs/` into the project (for human browsing)
+4. Scaffolds `projects/<name>/context.md`, `projects/<name>/config.yaml`, and `projects/<name>/specs/` if they don't exist
+5. Symlinks `doc/context.md`, `doc/config.yaml`, and `doc/specs/` into the project (for human browsing)
 6. Installs a `post-checkout` hook so new git worktrees auto-link
 7. Adds all generated files to `.gitignore`
 
@@ -60,4 +61,7 @@ Specs are resolved as `${AGENTS_DIR:-$HOME/.agents}/projects/<project>/specs/<fe
 
 ## Project Context
 
-Fill in `doc/context.md` after first setup. Sections: overview, tech stack, architecture, development, test directories. The top of the file links to `.agents/conventions.md` for cross-cutting rules. Every workflow loads `doc/context.md`.
+Two files per project:
+
+- `doc/context.md` — prose: overview, tech stack, architecture, development. Links to `.agents/conventions.md` for cross-cutting rules. Every workflow loads it.
+- `doc/config.yaml` — machine-readable values the runtime parses (e.g., `test_dirs` for the spec workflow's write allowlist). Add only fields workflows or pi-mono actually consume.

@@ -17,7 +17,7 @@ task:
       - "${AGENTS_DIR:-$HOME/.agents}/projects/<project>/**"
     write:
       - "${AGENTS_DIR:-$HOME/.agents}/projects/<project>/specs/"
-      - "<test directories declared in doc/context.md>"
+      - "<test_dirs from .agents/projects/<project>/config.yaml>"
   exit_when:
     - "spec written and approved by user"
     - "failing test exists for each contract"

@@ -43,13 +43,21 @@ Cross-cutting rules: see `.agents/conventions.md`.
 
 ## Development
 <!-- How to build, test, and run the project -->
-
-## Test directories
-<!-- Paths the spec workflow may write tests to, one per line (e.g., test/, spec/) -->
 EOF
   echo "Created .agents/projects/$project_name/context.md — fill in your project details"
 fi
 ln -sf "../.agents/projects/$project_name/context.md" doc/context.md
+
+if [ ! -f "$AGENTS_DIR/projects/$project_name/config.yaml" ]; then
+  cat > "$AGENTS_DIR/projects/$project_name/config.yaml" <<'EOF'
+# Machine-readable project config consumed by workflows / pi-mono.
+# Add only fields the agent or runtime needs to parse; prose stays in context.md.
+
+test_dirs: []   # paths the spec workflow may write tests to, e.g. [test/, spec/]
+EOF
+  echo "Created .agents/projects/$project_name/config.yaml — fill in test_dirs etc."
+fi
+ln -sf "../.agents/projects/$project_name/config.yaml" doc/config.yaml
 
 # Symlink .claude/commands to agents commands directory
 mkdir -p .claude
@@ -75,7 +83,7 @@ elif ! grep -q "Auto-link agents" "$hook_file" 2>/dev/null; then
 fi
 
 # Ensure generated files are in the project's .gitignore
-for entry in .agents AGENTS.md CLAUDE.md doc/context.md doc/specs .claude/commands; do
+for entry in .agents AGENTS.md CLAUDE.md doc/context.md doc/config.yaml doc/specs .claude/commands; do
   if ! grep -qxF "$entry" .gitignore 2>/dev/null; then
     echo "$entry" >> .gitignore
   fi
