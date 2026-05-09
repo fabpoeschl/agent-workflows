@@ -59,9 +59,17 @@ EOF
 fi
 ln -sf "../.agents/projects/$project_name/config.yaml" doc/config.yaml
 
-# Symlink .claude/commands to agents commands directory
-mkdir -p .claude
-ln -sfn "$AGENTS_DIR/commands" .claude/commands
+# Populate .claude/commands for Claude Code (pi-mono reads ~/.agents/skills directly)
+# For flat .md skills: symlink the file. For pi-format skill dirs: extract the SKILL.md body.
+mkdir -p .claude/commands
+for skill in "$AGENTS_DIR/skills"/*; do
+  name=$(basename "$skill")
+  if [ -d "$skill" ] && [ -f "$skill/SKILL.md" ]; then
+    awk '/^---/{if(++n==2){body=1;next}} body' "$skill/SKILL.md" > ".claude/commands/$name.md"
+  elif [ -f "$skill" ]; then
+    ln -sf "$skill" ".claude/commands/$name"
+  fi
+done
 
 # Install post-checkout hook in the main worktree so new worktrees auto-link
 hook_dir="$main_root/.git/hooks"

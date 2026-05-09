@@ -12,10 +12,11 @@ workflows/             ← each file declares a Task Contract (inputs, outputs, 
   implementation.md    ← turn the spec's failing tests green, commit
   bugfix.md            ← diagnose, fix, commit
   review.md            ← tiered review of a diff (read-only)
-commands/
-  spec.md              ← /spec command (Claude Code)
-  review.md            ← /review command (Claude Code)
-  fix.md               ← /fix command (Claude Code)
+skills/                ← pi-mono reads ~/.agents/skills; link generates .claude/commands from these
+  spec/SKILL.md        ← /spec — interview, write spec + failing tests
+  implement/SKILL.md   ← /implement — turn spec tests green, commit
+  fix/SKILL.md         ← /fix — diagnose, fix, commit
+  review/SKILL.md      ← /review — tiered diff review (read-only)
 projects/              ← per-project state (gitignored)
   <project-name>/
     context.md         ← prose project shape, link to conventions
@@ -36,7 +37,7 @@ git clone <repo-url> ~/.agents
 The `link` script:
 1. Symlinks `.agents → ~/.agents` in the project root
 2. Symlinks `AGENTS.md` (OpenCode) and `CLAUDE.md` (Claude Code) to the project root
-3. Symlinks `.claude/commands → .agents/commands` for Claude Code slash commands
+3. Builds `.claude/commands/` for Claude Code: symlinks flat skill files, extracts body from pi-format `SKILL.md` dirs (pi-mono reads `~/.agents/skills` directly)
 4. Scaffolds `projects/<name>/context.md`, `projects/<name>/config.yaml`, and `projects/<name>/specs/` if they don't exist
 5. Symlinks `doc/context.md`, `doc/config.yaml`, and `doc/specs/` into the project (for human browsing)
 6. Installs a `post-checkout` hook so new git worktrees auto-link
