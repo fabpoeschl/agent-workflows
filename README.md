@@ -6,6 +6,7 @@ Reusable prompts and project context for AI coding agents.
 
 ```
 AGENTS.md              ← top-level dispatch (symlinked to project root as AGENTS.md + CLAUDE.md)
+.pi/prompts/           ← generated local symlinks so pi sees `/spec`, `/implement`, `/fix`, `/review`
 conventions.md         ← cross-cutting rules (currently: commit conventions)
 prompts/               ← shared user-facing slash-command prompts for Claude and similar agents
   spec.md              ← /spec — analyze codebase, interview, write spec + failing tests
@@ -35,11 +36,12 @@ git clone <repo-url> ~/.agents
 The `link` script:
 1. Symlinks `.agents → ~/.agents` in the project root
 2. Symlinks `AGENTS.md` (OpenCode) and `CLAUDE.md` (Claude Code) to the project root
-3. Builds `.claude/commands/` for Claude Code: prefers `prompts/*.md`, then extracts bodies from pi-format `skills/*/SKILL.md` when no prompt exists
-4. Scaffolds `projects/<name>/context.md`, `projects/<name>/config.yaml`, and `projects/<name>/specs/` if they don't exist
-5. Symlinks `doc/context.md`, `doc/config.yaml`, and `doc/specs/` into the project (for human browsing)
-6. Installs a `post-checkout` hook so new git worktrees auto-link
-7. Adds all generated files to `.gitignore`
+3. Builds `.claude/commands/` for Claude Code from `prompts/*.md`, then falls back to pi-format `skills/*/SKILL.md` when no prompt exists
+4. Builds `.pi/prompts/` for pi prompt-template discovery from `prompts/*.md`
+5. Scaffolds `projects/<name>/context.md`, `projects/<name>/config.yaml`, and `projects/<name>/specs/` if they don't exist
+6. Symlinks `doc/context.md`, `doc/config.yaml`, and `doc/specs/` into the project (for human browsing)
+7. Installs a `post-checkout` hook so new git worktrees auto-link
+8. Adds all generated files to `.gitignore`
 
 ## Worktrees
 

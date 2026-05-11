@@ -8,3 +8,4 @@ doc/config.yaml
 doc/specs
 .claude/commands
 doc/state
+.pi/prompts

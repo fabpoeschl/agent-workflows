@@ -81,6 +81,15 @@ for skill in "$AGENTS_DIR/skills"/*; do
   fi
 done
 
+# Populate .pi/prompts for pi prompt-template discovery.
+rm -rf .pi/prompts
+mkdir -p .pi/prompts
+for prompt in "$AGENTS_DIR/prompts"/*.md; do
+  [ -e "$prompt" ] || continue
+  name=$(basename "$prompt")
+  ln -sf "$prompt" ".pi/prompts/$name"
+done
+
 # Install post-checkout hook in the main worktree so new worktrees auto-link
 hook_dir="$main_root/.git/hooks"
 hook_file="$hook_dir/post-checkout"
@@ -101,7 +110,7 @@ elif ! grep -q "Auto-link agents" "$hook_file" 2>/dev/null; then
 fi
 
 # Ensure generated files are in the project's .gitignore
-for entry in .agents AGENTS.md CLAUDE.md doc/context.md doc/config.yaml doc/specs doc/state .claude/commands; do
+for entry in .agents AGENTS.md CLAUDE.md doc/context.md doc/config.yaml doc/specs doc/state .claude/commands .pi/prompts; do
   if ! grep -qxF "$entry" .gitignore 2>/dev/null; then
     echo "$entry" >> .gitignore
   fi
