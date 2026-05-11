@@ -8,4 +8,4 @@ description: >
   commit conventions. Does not push.
 ---
 
-Follow the implementation workflow in `.agents/workflows/implementation.md`.
+Follow the implementation process defined in `.agents/prompts/implement.md`.

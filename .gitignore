@@ -1,2 +1,10 @@
 projects/
 .opencode/
+.agents
+AGENTS.md
+CLAUDE.md
+doc/context.md
+doc/config.yaml
+doc/specs
+.claude/commands
+doc/state

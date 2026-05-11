@@ -7,4 +7,4 @@ description: >
   project's commit conventions. Does not push.
 ---
 
-Follow the bugfix workflow in `.agents/workflows/bugfix.md`.
+Follow the bugfix process defined in `.agents/prompts/fix.md`.

@@ -23,8 +23,9 @@ ln -sf "$AGENTS_DIR/AGENTS.md" AGENTS.md
 ln -sf "$AGENTS_DIR/AGENTS.md" CLAUDE.md
 
 # Scaffold doc/ with project-specific directories and context
-mkdir -p doc "$AGENTS_DIR/projects/$project_name/specs"
+mkdir -p doc "$AGENTS_DIR/projects/$project_name/specs" "$AGENTS_DIR/projects/$project_name/state"
 ln -sfn "../.agents/projects/$project_name/specs" doc/specs
+ln -sfn "../.agents/projects/$project_name/state" doc/state
 
 if [ ! -f "$AGENTS_DIR/projects/$project_name/context.md" ]; then
   cat > "$AGENTS_DIR/projects/$project_name/context.md" <<'EOF'
@@ -50,22 +51,31 @@ ln -sf "../.agents/projects/$project_name/context.md" doc/context.md
 
 if [ ! -f "$AGENTS_DIR/projects/$project_name/config.yaml" ]; then
   cat > "$AGENTS_DIR/projects/$project_name/config.yaml" <<'EOF'
-# Machine-readable project config consumed by workflows / pi-mono.
+# Machine-readable project config consumed by prompts / pi-mono.
 # Add only fields the agent or runtime needs to parse; prose stays in context.md.
 
-test_dirs: []   # paths the spec workflow may write tests to, e.g. [test/, spec/]
+test_dirs: []   # paths the /spec prompt may write tests to, e.g. [test/, spec/]
 EOF
   echo "Created .agents/projects/$project_name/config.yaml — fill in test_dirs etc."
 fi
 ln -sf "../.agents/projects/$project_name/config.yaml" doc/config.yaml
 
-# Populate .claude/commands for Claude Code (pi-mono reads ~/.agents/skills directly)
-# For flat .md skills: symlink the file. For pi-format skill dirs: extract the SKILL.md body.
+# Populate .claude/commands for Claude Code.
+# Prefer explicit prompts from prompts/*.md; fall back to pi-format skills.
+rm -rf .claude/commands
 mkdir -p .claude/commands
+for prompt in "$AGENTS_DIR/prompts"/*.md; do
+  [ -e "$prompt" ] || continue
+  name=$(basename "$prompt")
+  ln -sf "$prompt" ".claude/commands/$name"
+done
 for skill in "$AGENTS_DIR/skills"/*; do
+  [ -e "$skill" ] || continue
   name=$(basename "$skill")
+  target=".claude/commands/$name.md"
+  [ -e "$target" ] && continue
   if [ -d "$skill" ] && [ -f "$skill/SKILL.md" ]; then
-    awk '/^---/{if(++n==2){body=1;next}} body' "$skill/SKILL.md" > ".claude/commands/$name.md"
+    awk '/^---/{if(++n==2){body=1;next}} body' "$skill/SKILL.md" > "$target"
   elif [ -f "$skill" ]; then
     ln -sf "$skill" ".claude/commands/$name"
   fi
@@ -91,7 +101,7 @@ elif ! grep -q "Auto-link agents" "$hook_file" 2>/dev/null; then
 fi
 
 # Ensure generated files are in the project's .gitignore
-for entry in .agents AGENTS.md CLAUDE.md doc/context.md doc/config.yaml doc/specs .claude/commands; do
+for entry in .agents AGENTS.md CLAUDE.md doc/context.md doc/config.yaml doc/specs doc/state .claude/commands; do
   if ! grep -qxF "$entry" .gitignore 2>/dev/null; then
     echo "$entry" >> .gitignore
   fi

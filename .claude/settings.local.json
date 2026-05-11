@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(/bin/mv:*)"
+      "Bash(/bin/mv:*)",
+      "Bash(git -C /Users/fabian/src/agent-workflows rm skills/spec.md)",
+      "Bash(git -C /Users/fabian/src/agent-workflows rm:*)",
+      "Bash(git -C /Users/fabian/src/agent-workflows diff)",
+      "Bash(git -C /Users/fabian/src/agent-workflows status --short)"
     ]
   }
 }
