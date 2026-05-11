@@ -60,25 +60,13 @@ EOF
 fi
 ln -sf "../.agents/projects/$project_name/config.yaml" doc/config.yaml
 
-# Populate .claude/commands for Claude Code.
-# Prefer explicit prompts from prompts/*.md; fall back to pi-format skills.
+# Populate .claude/commands for Claude Code from prompts/*.md.
 rm -rf .claude/commands
 mkdir -p .claude/commands
 for prompt in "$AGENTS_DIR/prompts"/*.md; do
   [ -e "$prompt" ] || continue
   name=$(basename "$prompt")
   ln -sf "$prompt" ".claude/commands/$name"
-done
-for skill in "$AGENTS_DIR/skills"/*; do
-  [ -e "$skill" ] || continue
-  name=$(basename "$skill")
-  target=".claude/commands/$name.md"
-  [ -e "$target" ] && continue
-  if [ -d "$skill" ] && [ -f "$skill/SKILL.md" ]; then
-    awk '/^---/{if(++n==2){body=1;next}} body' "$skill/SKILL.md" > "$target"
-  elif [ -f "$skill" ]; then
-    ln -sf "$skill" ".claude/commands/$name"
-  fi
 done
 
 # Populate .pi/prompts for pi prompt-template discovery.

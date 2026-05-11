@@ -13,9 +13,6 @@ prompts/               ← shared user-facing slash-command prompts for Claude a
   implement.md         ← /implement — turn spec tests green, commit
   fix.md               ← /fix — diagnose, fix, commit
   review.md            ← /review — tiered diff review (read-only)
-skills/                ← pi-mono reads ~/.agents/skills; used as fallback when no prompt file exists
-  implement/SKILL.md   ← pi skill metadata/body for the implementation prompt
-  fix/SKILL.md         ← pi skill metadata/body for the bugfix prompt
 projects/              ← per-project state (gitignored)
   <project-name>/
     context.md         ← prose project shape, link to conventions
@@ -36,7 +33,7 @@ git clone <repo-url> ~/.agents
 The `link` script:
 1. Symlinks `.agents → ~/.agents` in the project root
 2. Symlinks `AGENTS.md` (OpenCode) and `CLAUDE.md` (Claude Code) to the project root
-3. Builds `.claude/commands/` for Claude Code from `prompts/*.md`, then falls back to pi-format `skills/*/SKILL.md` when no prompt exists
+3. Builds `.claude/commands/` for Claude Code from `prompts/*.md`
 4. Builds `.pi/prompts/` for pi prompt-template discovery from `prompts/*.md`
 5. Scaffolds `projects/<name>/context.md`, `projects/<name>/config.yaml`, and `projects/<name>/specs/` if they don't exist
 6. Symlinks `doc/context.md`, `doc/config.yaml`, and `doc/specs/` into the project (for human browsing)
